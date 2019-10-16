@@ -1,0 +1,59 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-ssd
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tezos-public-node
+spec:
+  selector:
+    matchLabels:
+      app: tezos-public-node # Label selector that determines which Pods belong to the StatefulSet
+                 # Must match spec: template: metadata: labels
+  serviceName: "tezos-public-node"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tezos-public-node # Pod template's label selector
+    spec:
+      securityContext:
+        fsGroup: 100
+      containers:
+      - name: tezos-public-node
+        image: tezos/tezos
+        args: [ "tezos-node", "--history-mode", "experimental-rolling" ]
+        ports:
+        - containerPort: 9732
+          name: tezos-port
+        volumeMounts:
+        - name: tezos-public-node-pv-claim
+          mountPath: /var/run/tezos/node
+      initContainers:
+      - name: tezos-snapshot-downloader
+        image: tezos-snapshot-downloader
+        args:
+        - "$(SNAPSHOT_URL)"
+        env:
+        - name: SNAPSHOT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: tezos-configmap
+              key: SNAPSHOT_URL
+        volumeMounts:
+        - name: tezos-public-node-pv-claim
+          mountPath: /var/run/tezos/node
+  volumeClaimTemplates:
+  - metadata:
+      name: tezos-public-node-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-ssd
+      resources:
+        requests:
+          storage: 30Gi
