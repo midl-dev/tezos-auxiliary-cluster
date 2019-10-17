@@ -12,7 +12,7 @@ provider "google-beta" {
 # Generate a random id for the project - GCP projects must have globally
 # unique names
 resource "random_id" "project_random" {
-  prefix      = var.tezos_network
+  prefix      = "tzmon"
   byte_length = "8"
 }
 
@@ -77,7 +77,7 @@ resource "google_project_service" "service" {
 
 # Create an external NAT IP
 resource "google_compute_address" "tezos-monitor-nat" {
-  count   = 2
+  count   = 1
   name    = "tezos-monitor-nat-external-${count.index}"
   project = local.tezos_monitor_project_id
   region  = var.region
@@ -187,9 +187,9 @@ resource "google_container_cluster" "tezos_monitor" {
       disabled = true
     }
 
-    # Enable network policy configurations (like Calico).
+    # disable all network policy, for monitoring node
     network_policy_config {
-      disabled = false
+      disabled = true
     }
     horizontal_pod_autoscaling {
       disabled = false
@@ -206,10 +206,9 @@ resource "google_container_cluster" "tezos_monitor" {
     }
   }
 
-  # Enable network policy configurations (like Calico) - for some reason this
-  # has to be in here twice.
+  # disable network policy
   network_policy {
-    enabled = true
+    enabled = false
   }
 
   # Set the maintenance window.
@@ -277,7 +276,7 @@ resource "google_container_node_pool" "tezos_monitor_node_pool" {
   }
 
   node_config {
-    machine_type    = var.kubernetes_instance_type
+    machine_type    = var.kubernetes_instance_type_steady
     service_account = google_service_account.tezos-monitor-server.email
 
     # Set metadata on the VM to supply more entropy

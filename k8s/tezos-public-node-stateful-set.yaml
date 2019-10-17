@@ -27,13 +27,24 @@ spec:
       containers:
       - name: tezos-public-node
         image: tezos/tezos
-        args: [ "tezos-node", "--history-mode", "experimental-rolling" ]
+        args: [ "tezos-node" ]
         ports:
-        - containerPort: 9732
-          name: tezos-port
+        - containerPort: 8732
+          name: tezos-rpc-port
         volumeMounts:
         - name: tezos-public-node-pv-claim
           mountPath: /var/run/tezos/node
+        resources:
+          limits:
+            cpu: 0
+      - name: tezos-network-monitor
+        image: tezos-network-monitor
+        resources:
+          limits:
+            cpu: 0
+        envFrom:
+        - configMapRef:
+            name: tezos-network-monitor-configmap
       initContainers:
       - name: tezos-snapshot-downloader
         image: tezos-snapshot-downloader
@@ -48,6 +59,9 @@ spec:
         volumeMounts:
         - name: tezos-public-node-pv-claim
           mountPath: /var/run/tezos/node
+        resources:
+          limits:
+            cpu: 0
   volumeClaimTemplates:
   - metadata:
       name: tezos-public-node-pv-claim

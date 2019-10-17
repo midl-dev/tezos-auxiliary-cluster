@@ -1,6 +1,6 @@
-Tezos snapshot generator
-========================
+[WIP] Tezos auxiliary cluster
+=============================
 
-This is a set of terraform and kubernetes code to deply a tezos node in k8s that periodically generates snapshots and pushes it to a website.
+This is a set of terraform and kubernetes code to deply a tezos node in k8s that monitors a baking operation.
 
-It also deploys an external network monitor.
+It is using [Tezos Network Monitor](https://gitlab.com/polychainlabs/tezos-network-monitor)

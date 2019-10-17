@@ -14,17 +14,6 @@ provider "kubernetes" {
   token = data.google_client_config.current.access_token
 }
 
-# Write the hot wallet private key secret
-resource "kubernetes_secret" "hot_wallet_private_key" {
-  metadata {
-    name = "hot-wallet"
-  }
-
-  data = {
-    "hot_wallet_private_key" = "${var.hot_wallet_private_key}"
-  }
-}
-
 resource "kubernetes_secret" "website_builder_key" {
   metadata {
     name = "website-builder-credentials"
@@ -92,6 +81,13 @@ imageTags:
     newTag: ${var.tezos_network}
   - name: website-builder
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/website-builder
+    newTag: latest
+  - name: tezos-network-monitor
+    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-network-monitor
+    newTag: latest
+  - name: tezos-snapshot-downloader
+    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-snapshot-downloader
+    newTag: latest
 
 configMapGenerator:
 - name: tezos-configmap
@@ -101,18 +97,16 @@ configMapGenerator:
   - PROTOCOL="004-Pt24m4xi"
   - PROTOCOL_SHORT="Pt24m4xi"
   - DATA_DIR=/var/run/tezos
+- name: tezos-network-monitor-configmap
+  literals:
+  - NODE_URL="http://localhost:8732"
+  - SLACK_URL="${var.slack_url}"
+  - SLACK_CHANNEL="general"
+  - HOT_WALLET_PUBLIC_KEY="${var.hot_wallet_public_key}" 
+  - PUBLIC_BAKING_KEY="${var.public_baking_key}"
 EOK
-cat << EOP > loadbalancerpatch.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: tezos-remote-signer-forwarding-ingress
-spec:
-  loadBalancerIP: ${google_compute_address.signer_forwarder_target.address}
-EOP
 kubectl apply -k .
 EOF
 
   }
-  depends_on = [null_resource.push_containers, kubernetes_secret.hot_wallet_private_key]
 }
