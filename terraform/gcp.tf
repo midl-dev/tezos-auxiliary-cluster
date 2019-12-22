@@ -312,7 +312,7 @@ resource "random_id" "rnd" {
 }
 
 resource "google_storage_bucket" "website" {
-  name     = "tezos-snapshot-generator-website-static-bucket-${random_id.rnd.hex}"
+  name     = "tezos-baker-website-static-bucket-${random_id.rnd.hex}"
   project = local.tezos_monitor_project_id
 
   website {

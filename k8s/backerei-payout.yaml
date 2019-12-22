@@ -25,22 +25,6 @@ spec:
         spec:
           securityContext:
             fsGroup: 100
-          containers:
-          - name: backerei-payout-sender
-            image: registry.gitlab.com/ochem/backerei:latest
-            args: [ "--config", "/var/run/backerei/config/backerei.yaml", "payout", "--no-password" ]
-            volumeMounts:
-            - name: backerei-payout-storage
-              mountPath: /var/run/backerei/payouts
-            - name: backerei-config-storage
-              readOnly: true
-              mountPath: /var/run/backerei/config
-            - name: tezos-payout-client-storage
-              readOnly: true
-              mountPath: /var/run/tezos/client
-            resources:
-              limits:
-                cpu: 0
           initContainers:
           - name: tezos-client-configure-node-connectivity
             image: tezos/tezos
@@ -158,6 +142,36 @@ spec:
             resources:
               limits:
                 cpu: 0
+          - name: backerei-payout-sender
+            image: registry.gitlab.com/ochem/backerei:latest
+            args: [ "--config", "/var/run/backerei/config/backerei.yaml", "payout", "--no-password" ]
+            volumeMounts:
+            - name: backerei-payout-storage
+              mountPath: /var/run/backerei/payouts
+            - name: backerei-config-storage
+              readOnly: true
+              mountPath: /var/run/backerei/config
+            - name: tezos-payout-client-storage
+              readOnly: true
+              mountPath: /var/run/tezos/client
+            resources:
+              limits:
+                cpu: 0
+          containers:
+          - name: website-builder
+            image: website-builder
+            volumeMounts:
+            - name: backerei-payout-storage
+              mountPath: /var/run/backerei/payouts
+              readOnly: true
+            - name: website-builder-credentials
+              mountPath: /var/secrets/google
+            envFrom:
+            - configMapRef:
+                name: website-builder-configmap
+            resources:
+              limits:
+                cpu: 0
           volumes:
           - name: tezos-payout-client-storage
             emptyDir: {}
@@ -166,4 +180,7 @@ spec:
           - name: backerei-payout-storage
             persistentVolumeClaim:
               claimName: backerei-payout-storage-claim
+          - name: website-builder-credentials
+            secret:
+              secretName: website-builder-credentials
           restartPolicy: OnFailure

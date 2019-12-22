@@ -129,6 +129,12 @@ configMapGenerator:
   - PAYOUT_DELAY="${ var.payout_delay }"
   - PAYOUT_FEE="${ var.payout_fee }"
   - PAYOUT_STARTING_CYCLE="${ var.payout_starting_cycle }"
+- name: website-builder-configmap
+  literals:
+  - WEBSITE_ARCHIVE="${var.website_archive}"
+  - WEBSITE_BUCKET_URL="${google_storage_bucket.website.url}"
+  - PAYOUT_URL="http://payout-json/payouts.json"
+  - GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/json_key"
 EOK
 kubectl apply -k .
 EOF
