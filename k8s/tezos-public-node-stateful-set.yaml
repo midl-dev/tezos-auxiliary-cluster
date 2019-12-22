@@ -6,6 +6,17 @@ provisioner: kubernetes.io/gce-pd
 parameters:
   type: pd-ssd
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tezos-public-node-rpc
+spec:
+  ports:
+  - port: 8732
+  selector:
+    app: tezos-public-node
+  clusterIP: None
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -27,7 +38,7 @@ spec:
       containers:
       - name: tezos-public-node
         image: tezos/tezos
-        args: [ "tezos-node" ]
+        args: [ "tezos-node", "--history-mode", "archive" ]
         ports:
         - containerPort: 8732
           name: tezos-rpc-port
@@ -46,16 +57,16 @@ spec:
         - configMapRef:
             name: tezos-network-monitor-configmap
       initContainers:
-      - name: tezos-snapshot-downloader
-        image: tezos-snapshot-downloader
+      - name: tezos-archive-downloader
+        image: tezos-archive-downloader
         args:
-        - "$(SNAPSHOT_URL)"
+        - "$(ARCHIVE_URL)"
         env:
-        - name: SNAPSHOT_URL
+        - name: ARCHIVE_URL
           valueFrom:
             configMapKeyRef:
               name: tezos-configmap
-              key: SNAPSHOT_URL
+              key: ARCHIVE_URL
         volumeMounts:
         - name: tezos-public-node-pv-claim
           mountPath: /var/run/tezos/node
@@ -70,4 +81,4 @@ spec:
       storageClassName: local-ssd
       resources:
         requests:
-          storage: 30Gi
+          storage: 60Gi

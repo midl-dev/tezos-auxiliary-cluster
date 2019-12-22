@@ -1,0 +1,169 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backerei-payout-storage-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: backerei-payout-sender
+spec:
+  # every 3 hours
+  schedule: "7 */3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backerei-payout-sender
+        spec:
+          securityContext:
+            fsGroup: 100
+          containers:
+          - name: backerei-payout-sender
+            image: registry.gitlab.com/ochem/backerei:latest
+            args: [ "--config", "/var/run/backerei/config/backerei.yaml", "payout", "--no-password" ]
+            volumeMounts:
+            - name: backerei-payout-storage
+              mountPath: /var/run/backerei/payouts
+            - name: backerei-config-storage
+              readOnly: true
+              mountPath: /var/run/backerei/config
+            - name: tezos-payout-client-storage
+              readOnly: true
+              mountPath: /var/run/tezos/client
+            resources:
+              limits:
+                cpu: 0
+          initContainers:
+          - name: tezos-client-configure-node-connectivity
+            image: tezos/tezos
+            args: [ "tezos-client", "-p", "$(PROTOCOL_SHORT)", "-d", "/var/run/tezos/client", "-A", "tezos-public-node-rpc", "-P", "8732", "config", "init", "-o", "/var/run/tezos/client/config" ]
+            env:
+            - name: PROTOCOL_SHORT
+              valueFrom:
+                configMapKeyRef:
+                  name: tezos-configmap
+                  key: PROTOCOL_SHORT
+            volumeMounts:
+            - name: tezos-payout-client-storage
+              mountPath: /var/run/tezos/client
+            resources:
+              limits:
+                cpu: 0
+          - name: tezos-client-import-payout-key
+            image: tezos/tezos
+            # -f is to force key re-import (in case it's already here)
+            args: [ "tezos-client", "-p", "$(PROTOCOL_SHORT)", "-c", "/var/run/tezos/client/config", "import", "secret", "key", "k8s-payer", "unencrypted:$(HOT_WALLET_PRIVATE_KEY)", "-f" ]
+            env:
+            - name: PROTOCOL_SHORT
+              valueFrom:
+                configMapKeyRef:
+                  name: tezos-configmap
+                  key: PROTOCOL_SHORT
+            - name: HOT_WALLET_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hot-wallet
+                  key: hot_wallet_private_key
+            volumeMounts:
+            - name: tezos-payout-client-storage
+              mountPath: /var/run/tezos/client
+            resources:
+              limits:
+                cpu: 0
+          - name: backerei-init
+            image: registry.gitlab.com/ochem/backerei:latest
+            args: 
+            - "--config"
+            - "/var/run/backerei/config/backerei.yaml"
+            - "init"
+            - "--host"
+            - "tezos-public-node-rpc"
+            - "--tz1"
+            - "$(PUBLIC_BAKING_KEY)"
+            - "--from"
+            - "$(HOT_WALLET_PUBLIC_KEY)"
+            - "--from-name"
+            - "k8s-payer"
+            - "--database-path"
+            - "/var/run/backerei/payouts/payouts.json"
+            - "--client-path"
+            - "/usr/local/bin/tezos-client"
+            - "--client-config-file"
+            - "/var/run/tezos/client/config"
+            - "--starting-cycle"
+            - "$(PAYOUT_STARTING_CYCLE)"
+            - "--cycle-length"
+            - "$(CYCLE_LENGTH)"
+            - "--snapshot-interval"
+            - "$(SNAPSHOT_INTERVAL)"
+            - "--preserved-cycles"
+            - "$(PRESERVED_CYCLES)"
+            - "--payout-delay"
+            - "$(PAYOUT_DELAY)"
+            - "--pay-estimated-rewards"
+            - "--fee"
+            - "$(PAYOUT_FEE)"
+            volumeMounts:
+            - name: backerei-config-storage
+              mountPath: /var/run/backerei/config
+            env:
+            - name: HOT_WALLET_PUBLIC_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: HOT_WALLET_PUBLIC_KEY
+            - name: CYCLE_LENGTH
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: CYCLE_LENGTH
+            - name: PRESERVED_CYCLES
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PRESERVED_CYCLES
+            - name: PAYOUT_DELAY
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PAYOUT_DELAY
+            - name: SNAPSHOT_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: SNAPSHOT_INTERVAL
+            - name: PUBLIC_BAKING_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: tezos-configmap
+                  key: PUBLIC_BAKING_KEY
+            - name: PAYOUT_FEE
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PAYOUT_FEE
+            - name: PAYOUT_STARTING_CYCLE
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PAYOUT_STARTING_CYCLE
+            resources:
+              limits:
+                cpu: 0
+          volumes:
+          - name: tezos-payout-client-storage
+            emptyDir: {}
+          - name: backerei-config-storage
+            emptyDir: {}
+          - name: backerei-payout-storage
+            persistentVolumeClaim:
+              claimName: backerei-payout-storage-claim
+          restartPolicy: OnFailure

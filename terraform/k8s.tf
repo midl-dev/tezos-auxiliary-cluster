@@ -14,6 +14,18 @@ provider "kubernetes" {
   token = data.google_client_config.current.access_token
 }
 
+
+# Write the hot wallet private key secret
+resource "kubernetes_secret" "hot_wallet_private_key" {
+  metadata {
+    name = "hot-wallet"
+  }
+
+  data = {
+    "hot_wallet_private_key" = "${var.hot_wallet_private_key}"
+  }
+}
+
 resource "kubernetes_secret" "website_builder_key" {
   metadata {
     name = "website-builder-credentials"
@@ -74,16 +86,19 @@ kind: Kustomization
 
 resources:
 - tezos-public-node-stateful-set.yaml
-- website-builder.yaml
+- backerei-payout.yaml
 
 imageTags:
   - name: tezos/tezos
-    newTag: ${var.tezos_network}
+    newTag: ${var.tezos_version}
   - name: website-builder
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/website-builder
     newTag: latest
   - name: tezos-network-monitor
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-network-monitor
+    newTag: latest
+  - name: tezos-archive-downloader
+    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-archive-downloader
     newTag: latest
   - name: tezos-snapshot-downloader
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-snapshot-downloader
@@ -92,11 +107,12 @@ imageTags:
 configMapGenerator:
 - name: tezos-configmap
   literals:
-  - SNAPSHOT_URL="${var.snapshot_url}"
+  - ARCHIVE_URL="${var.archive_url}"
   - NODE_HOST="localhost"
-  - PROTOCOL="004-Pt24m4xi"
-  - PROTOCOL_SHORT="Pt24m4xi"
   - DATA_DIR=/var/run/tezos
+  - PUBLIC_BAKING_KEY="${var.public_baking_key}"
+  - PROTOCOL="${var.protocol}"
+  - PROTOCOL_SHORT="${var.protocol_short}"
 - name: tezos-network-monitor-configmap
   literals:
   - NODE_URL="http://localhost:8732"
@@ -104,6 +120,15 @@ configMapGenerator:
   - SLACK_CHANNEL="general"
   - HOT_WALLET_PUBLIC_KEY="${var.hot_wallet_public_key}" 
   - PUBLIC_BAKING_KEY="${var.public_baking_key}"
+- name: backerei-payout-configmap
+  literals:
+  - HOT_WALLET_PUBLIC_KEY="${var.hot_wallet_public_key}" 
+  - SNAPSHOT_INTERVAL="${ var.tezos_network == "mainnet" ? 256 : 128 }"
+  - CYCLE_LENGTH="${ var.tezos_network == "mainnet" ? 4096 : 2048 }"
+  - PRESERVED_CYCLES="${ var.tezos_network == "mainnet" ? 5 : 3 }"
+  - PAYOUT_DELAY="${ var.payout_delay }"
+  - PAYOUT_FEE="${ var.payout_fee }"
+  - PAYOUT_STARTING_CYCLE="${ var.payout_starting_cycle }"
 EOK
 kubectl apply -k .
 EOF

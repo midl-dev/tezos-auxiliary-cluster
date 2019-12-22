@@ -134,9 +134,19 @@ variable "org_id" {
   description = "Organization ID."
 }
 
+variable "archive_url" {
+  type = string
+  description = "The public URL where to download the tezos blockchain archive for quicker sync"
+}
+
 variable "snapshot_url" {
   type = string
   description = "The public URL where to download the tezos blockchain snapshot for quicker sync of the public nodes"
+}
+
+variable "tezos_version" {
+  type =string
+  description = "The tezos container version to use"
 }
 
 variable "tezos_network" {
@@ -167,4 +177,37 @@ variable "public_baking_key" {
 variable "hot_wallet_public_key" {
   type = string
   description = "The public key of the hot wallet or payout wallet (where rewards come from)"
+}
+
+variable "hot_wallet_private_key" {
+  type = string
+  description = "The private key of the hot wallet or payout wallet (where rewards come from). must be unencrypted and without the unencrypted: string"
+}
+
+variable "payout_delay" {
+  type =string
+  description = "Number of cycles to delay the payout compared to PRESERVED_CYCLES (can be negatives to pay out in advance)"
+}
+
+variable "payout_fee" {
+  type = string
+  description = "the fee, formatted in 'numerator % denominator', for example '11 % 100' for a 11% fee"
+  default = "10 % 100"
+}
+
+variable "payout_starting_cycle" {
+  type = string
+  description = "the number of first cycle for which you want to send payouts. for safety, so you don't send older payments again"
+}
+
+variable "protocol" {
+  type = string
+  description = "the tezos protocol currently in use"
+  default = "005-PsBabyM1"
+}
+
+variable "protocol_short" {
+  type = string
+  description = "the shot string describing the protocol"
+  default = "PsBabyM1"
 }
