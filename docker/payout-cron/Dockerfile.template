@@ -1,0 +1,5 @@
+FROM registry.gitlab.com/ochem/backerei:latest
+RUN sudo apk add --no-cache jq curl
+COPY payout-cron.sh /
+ENTRYPOINT ["/payout-cron.sh"]
+CMD []

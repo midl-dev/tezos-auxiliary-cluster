@@ -55,8 +55,8 @@ find ${path.module}/../docker -mindepth 1 -type d  -printf '%f\n'| while read co
   pushd ${path.module}/../docker/$container
   sed -e "s/((tezos_network))/${var.tezos_network}/" Dockerfile.template > Dockerfile
   tag="gcr.io/${google_container_cluster.tezos_monitor.project}/$container:latest"
-  docker build -t $tag .
-  docker push $tag
+  podman build --format docker -t $tag .
+  podman push $tag
   rm -v Dockerfile
   popd
 done
@@ -102,6 +102,9 @@ imageTags:
     newTag: latest
   - name: tezos-snapshot-downloader
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-snapshot-downloader
+    newTag: latest
+  - name: payout-cron
+    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/payout-cron
     newTag: latest
 
 configMapGenerator:
