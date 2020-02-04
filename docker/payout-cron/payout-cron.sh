@@ -12,7 +12,8 @@ current_cycle_start_height=$(curl "https://api.tzstats.com/explorer/cycle/head" 
 number_of_payments=$(curl "https://api.tzstats.com/explorer/account/$HOT_WALLET_PUBLIC_KEY/op?type=transaction&since=$current_cycle_start_height" | jq --arg payout_address $HOT_WALLET_PUBLIC_KEY -r ' [ .ops | .[] | select(.receiver == $payout_address and .sender == $payout_address) ] | length ')
 
 if [ "$number_of_payments" -ne 0 ]; then
-    printf "We checked the blockchain using tzstats and already found a payment, exiting\n"
+    printf "We checked the blockchain using tzstats and already found a payment\n"
+    printf "Payout for cycle $current_cycle_num appears to have already been done, exiting\n"
     exit 0
 
 else
