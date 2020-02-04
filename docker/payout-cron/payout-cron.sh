@@ -50,5 +50,10 @@ printf "configuring backerei\n"
 --pay-estimated-rewards \
 --fee $PAYOUT_FEE
 
+printf "wait for node to be bootstrapped\n"
+/usr/local/bin/tezos-client bootstrapped
+
 printf "Sending out payment\n"
 /usr/local/bin/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
+
+printf "Payout cronjob complete\n"
