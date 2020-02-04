@@ -85,6 +85,11 @@ spec:
                 configMapKeyRef:
                   name: backerei-payout-configmap
                   key: PAYOUT_STARTING_CYCLE
+            - name: WITNESS_PAYOUT_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: WITNESS_PAYOUT_ADDRESS
             resources:
               limits:
                 cpu: 0

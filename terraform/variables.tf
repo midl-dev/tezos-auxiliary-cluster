@@ -211,3 +211,8 @@ variable "protocol_short" {
   description = "the shot string describing the protocol"
   default = "PsBabyM1"
 }
+
+variable "witness_payout_address" {
+  type = string
+  description = "A test delegate that you set up and permanently delegates to the baking address. Used for secondary verifications that payouts have not been done yet, to avoid double payouts. You may also set it as the payout address, but ensure that the payout address delegates to the baking address."
+}

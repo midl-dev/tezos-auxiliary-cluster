@@ -132,6 +132,7 @@ configMapGenerator:
   - PAYOUT_DELAY="${ var.payout_delay }"
   - PAYOUT_FEE="${ var.payout_fee }"
   - PAYOUT_STARTING_CYCLE="${ var.payout_starting_cycle }"
+  - WITNESS_PAYOUT_ADDRESS="${var.witness_payout_address}"
 - name: website-builder-configmap
   literals:
   - WEBSITE_ARCHIVE="${var.website_archive}"
