@@ -31,8 +31,8 @@ spec:
             volumeMounts:
             - name: backerei-payout-storage
               mountPath: /var/run/backerei/payouts
-            - name: tezos-payout-client-storage
-              mountPath: /var/run/tezos/client
+            - name: backerei-config-storage
+              mountPath: /var/run/backerei/config
             env:
             - name: PROTOCOL_SHORT
               valueFrom:
@@ -108,7 +108,7 @@ spec:
               limits:
                 cpu: 0
           volumes:
-          - name: tezos-payout-client-storage
+          - name: backerei-config-storage
             emptyDir: {}
           - name: backerei-payout-storage
             persistentVolumeClaim:

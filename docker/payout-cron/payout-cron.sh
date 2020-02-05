@@ -48,10 +48,10 @@ printf "configuring backerei\n"
 --preserved-cycles $PRESERVED_CYCLES \
 --payout-delay $PAYOUT_DELAY \
 --pay-estimated-rewards \
---fee $PAYOUT_FEE
+--fee "$PAYOUT_FEE"
 
 printf "wait for node to be bootstrapped\n"
-/usr/local/bin/tezos-client bootstrapped
+/usr/local/bin/tezos-client -d /var/run/tezos/client bootstrapped
 
 printf "Sending out payment\n"
 /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
