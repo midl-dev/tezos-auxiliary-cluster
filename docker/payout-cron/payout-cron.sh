@@ -34,7 +34,7 @@ printf "import payout key into tezos-client\n"
 /usr/local/bin/tezos-client -p $PROTOCOL_SHORT -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
 
 printf "configuring backerei\n"
-/usr/local/bin/backerei --config /var/run/backerei/config/backerei.yaml init \
+/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml init \
 --host tezos-public-node-rpc \
 --tz1 $PUBLIC_BAKING_KEY \
 --from $HOT_WALLET_PUBLIC_KEY \
@@ -54,6 +54,6 @@ printf "wait for node to be bootstrapped\n"
 /usr/local/bin/tezos-client bootstrapped
 
 printf "Sending out payment\n"
-/usr/local/bin/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
+/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
 
 printf "Payout cronjob complete\n"
