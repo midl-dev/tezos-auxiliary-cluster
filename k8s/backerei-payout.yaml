@@ -32,7 +32,6 @@ spec:
             - name: backerei-payout-storage
               mountPath: /var/run/backerei/payouts
             - name: tezos-payout-client-storage
-              readOnly: true
               mountPath: /var/run/tezos/client
             env:
             - name: PROTOCOL_SHORT
