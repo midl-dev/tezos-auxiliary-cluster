@@ -15,7 +15,7 @@ number_of_payments=$(curl "https://api.tzstats.com/explorer/account/$HOT_WALLET_
 
 if [ "$number_of_payments" -ne 0 ]; then
     printf "We checked the blockchain using tzstats and already found a payment from the payout address $HOT_WALLET_PUBLIC_KEY to the witness address $WITNESS_PAYOUT_ADDRESS\n"
-    printf "We conclude that the payout for cycle $current_cycle_num appears to have already been done, exiting\n"
+    printf "We conclude that the payout supposed to happen during cycle $current_cycle_num appears to have already been done, exiting\n"
     exit 0
 
 else
