@@ -54,6 +54,6 @@ printf "wait for node to be bootstrapped\n"
 /usr/local/bin/tezos-client -d /var/run/tezos/client bootstrapped
 
 printf "Sending out payment\n"
-/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
+/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 
 printf "Payout cronjob complete\n"
