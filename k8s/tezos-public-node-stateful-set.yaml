@@ -37,7 +37,7 @@ spec:
         fsGroup: 100
       containers:
       - name: tezos-public-node
-        image: tezos/tezos
+        image: tezos-node-with-probes
         args: [ "tezos-node", "--history-mode", "archive" ]
         ports:
         - containerPort: 8732
@@ -48,6 +48,21 @@ spec:
         resources:
           limits:
             cpu: 0
+        livenessProbe:
+          # pod is considered dead when number of connections drops to zero
+          exec:
+            command:
+            - /usr/local/bin/does-tezos-node-have-connections.sh
+          periodSeconds: 10
+          failureThreshold: 50
+        #startupProbe:
+        # TODO upgrade to k8s 1.16 because it does not work on 1.15
+        # pod is not considered ready before it has at least one connection
+        #exec:
+        #command:
+        #- /usr/local/bin/does-tezos-node-have-connections.sh
+        #periodSeconds: 10
+        #failureThreshold: 100
       - name: tezos-network-monitor
         image: tezos-network-monitor
         resources:

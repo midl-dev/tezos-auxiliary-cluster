@@ -100,6 +100,9 @@ imageTags:
   - name: tezos-archive-downloader
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-archive-downloader
     newTag: latest
+  - name: tezos-node-with-probes
+    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-node-with-probes
+    newTag: latest
   - name: tezos-snapshot-downloader
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-snapshot-downloader
     newTag: latest
