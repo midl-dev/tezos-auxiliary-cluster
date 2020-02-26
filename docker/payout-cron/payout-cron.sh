@@ -10,7 +10,7 @@ current_cycle_start_height=$(curl "https://api.tzstats.com/explorer/cycle/head" 
 
 # Check whether payment has been done already.
 # Search for any payout from the payout address to the witness address.
-# It is fine if the payout address and the witness address are the same. Backerei will send a payment from and to the same address. The result will be 2.
+# Do not set the payout address and the witness address as the same address. Backerei indeed sends a payment to the payout address itself but there is no guarantee that tzstats api will see it as such.
 number_of_payments=$(curl "https://api.tzstats.com/explorer/account/$HOT_WALLET_PUBLIC_KEY/op?type=transaction&since=$current_cycle_start_height" | jq --arg sender_address $HOT_WALLET_PUBLIC_KEY --arg receiver_address $WITNESS_PAYOUT_ADDRESS -r ' [ .ops | .[] | select(.receiver == $receiver_address and .sender == $sender_address) ] | length ')
 
 if [ "$number_of_payments" -ne 0 ]; then
@@ -42,7 +42,7 @@ printf "configuring backerei\n"
 --database-path /var/run/backerei/payouts/payouts.json \
 --client-path /usr/local/bin/tezos-client \
 --client-config-file /var/run/tezos/client/config \
---starting-cycle $current_cycle_num \
+--starting-cycle $(($current_cycle_num - 6 - $PAYOUT_DELAY)) \
 --cycle-length $CYCLE_LENGTH \
 --snapshot-interval $SNAPSHOT_INTERVAL \
 --preserved-cycles $PRESERVED_CYCLES \
