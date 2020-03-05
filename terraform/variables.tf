@@ -25,16 +25,10 @@ variable "billing_account" {
   description = "Billing account ID."
 }
 
-variable "kubernetes_instance_type_steady" {
+variable "kubernetes_instance_type" {
   type        = string
   default     = "n1-standard-1"
   description = "Instance type to use for the nodes in their steady state."
-}
-
-variable "kubernetes_instance_type_bootstrap" {
-  type        = string
-  default     = "n1-standard-4"
-  description = "Instance type to use for the nodes during initial setup."
 }
 
 variable "service_account_iam_roles" {
@@ -203,13 +197,13 @@ variable "payout_starting_cycle" {
 variable "protocol" {
   type = string
   description = "the tezos protocol currently in use"
-  default = "005-PsBabyM1"
+  default = "006-PsCARTHA"
 }
 
 variable "protocol_short" {
   type = string
-  description = "the shot string describing the protocol"
-  default = "PsBabyM1"
+  description = "the short string describing the protocol"
+  default = "PsCARTHA"
 }
 
 variable "witness_payout_address" {

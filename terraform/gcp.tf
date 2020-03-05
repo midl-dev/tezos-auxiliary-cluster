@@ -276,7 +276,7 @@ resource "google_container_node_pool" "tezos_monitor_node_pool" {
   }
 
   node_config {
-    machine_type    = var.kubernetes_instance_type_steady
+    machine_type    = var.kubernetes_instance_type
     service_account = google_service_account.tezos-monitor-server.email
 
     # Set metadata on the VM to supply more entropy
