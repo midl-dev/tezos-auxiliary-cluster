@@ -53,7 +53,7 @@ gcloud auth configure-docker --project "${google_container_cluster.tezos_monitor
 
 find ${path.module}/../docker -mindepth 1 -type d  -printf '%f\n'| while read container; do
   pushd ${path.module}/../docker/$container
-  sed -e "s/((tezos_network))/${var.tezos_network}/" Dockerfile.template > Dockerfile
+  sed -e "s/((tezos_container_version))/${var.tezos_network}/" Dockerfile.template > Dockerfile
   tag="gcr.io/${google_container_cluster.tezos_monitor.project}/$container:latest"
   podman build --format docker -t $tag .
   podman push $tag
@@ -102,9 +102,6 @@ imageTags:
     newTag: latest
   - name: tezos-node-with-probes
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-node-with-probes
-    newTag: latest
-  - name: tezos-snapshot-downloader
-    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-snapshot-downloader
     newTag: latest
   - name: payout-cron
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/payout-cron

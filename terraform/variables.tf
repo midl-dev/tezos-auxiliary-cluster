@@ -146,7 +146,15 @@ variable "tezos_version" {
 variable "tezos_network" {
   type =string
   description = "The tezos network (alphanet and mainnet supported)"
+  default = "mainnet"
 }
+
+variable "tezos_container_version" {
+  type =string
+  description = "The tezos container version to use. recommended to hard-code it to prevent backwards-incompatible changes to crop up unexpected."
+  default = "mainnet"
+}
+
 
 variable "website" {
   type = string
