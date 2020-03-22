@@ -138,11 +138,6 @@ variable "snapshot_url" {
   description = "The public URL where to download the tezos blockchain snapshot for quicker sync of the public nodes"
 }
 
-variable "tezos_version" {
-  type =string
-  description = "The tezos container version to use"
-}
-
 variable "tezos_network" {
   type =string
   description = "The tezos network (alphanet and mainnet supported)"

@@ -17,22 +17,27 @@ printf "configure tezos client connectivity to tezos node\n"
 printf "import payout key into tezos-client\n"
 /usr/local/bin/tezos-client -p $PROTOCOL_SHORT -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
 
-printf "configuring backerei\n"
-/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml init \
---host tezos-public-node-rpc \
---tz1 $PUBLIC_BAKING_KEY \
---from $HOT_WALLET_PUBLIC_KEY \
---from-name k8s-payer \
---database-path /var/run/backerei/payouts/payouts.json \
---client-path /usr/local/bin/tezos-client \
---client-config-file /var/run/tezos/client/config \
---starting-cycle $(($current_cycle_num - 1)) \
---cycle-length $CYCLE_LENGTH \
---snapshot-interval $SNAPSHOT_INTERVAL \
---preserved-cycles $PRESERVED_CYCLES \
---payout-delay $PAYOUT_DELAY \
---pay-estimated-rewards \
---fee "$PAYOUT_FEE"
+config_backerei() {
+  printf "configuring backerei with starting-cycle $1\n"
+  /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml init \
+  --host tezos-public-node-rpc \
+  --tz1 $PUBLIC_BAKING_KEY \
+  --from $HOT_WALLET_PUBLIC_KEY \
+  --from-name k8s-payer \
+  --database-path /var/run/backerei/payouts/payouts.json \
+  --client-path /usr/local/bin/tezos-client \
+  --client-config-file /var/run/tezos/client/config \
+  --starting-cycle $1 \
+  --cycle-length $CYCLE_LENGTH \
+  --snapshot-interval $SNAPSHOT_INTERVAL \
+  --preserved-cycles $PRESERVED_CYCLES \
+  --payout-delay $PAYOUT_DELAY \
+  --pay-estimated-rewards \
+  --fee "$PAYOUT_FEE"
+}
+
+printf "For dry-run, set starting-cycle to an old cycle - no risk of accidental payout\n"
+config_backerei $((current_cycle_num - 6))
 
 printf "wait for node to be bootstrapped\n"
 /usr/local/bin/tezos-client -d /var/run/tezos/client bootstrapped
@@ -56,6 +61,10 @@ else
 
 fi
 
-printf "Would actually send a payout here\n"
+printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
+config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
+
+printf "Would actually send a payout here, doing dry-run for now\n"
+/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 
 printf "Payout cronjob complete\n"
