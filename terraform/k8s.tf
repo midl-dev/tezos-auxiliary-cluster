@@ -90,7 +90,7 @@ resources:
 
 imageTags:
   - name: tezos/tezos
-    newTag: ${var.tezos_version}
+    newTag: ${var.tezos_container_version}
   - name: website-builder
     newName: gcr.io/${google_container_cluster.tezos_monitor.project}/website-builder
     newTag: latest
