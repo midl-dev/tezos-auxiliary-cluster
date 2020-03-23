@@ -36,8 +36,8 @@ config_backerei() {
   --fee "$PAYOUT_FEE"
 }
 
-printf "For dry-run, set starting-cycle to an old cycle - no risk of accidental payout\n"
-config_backerei $((current_cycle_num - 6))
+printf "For dry-run, set starting-cycle to just finalized cycle - no risk of accidental payout\n"
+config_backerei $((current_cycle_num - 1))
 
 printf "wait for node to be bootstrapped\n"
 /usr/local/bin/tezos-client -d /var/run/tezos/client bootstrapped
@@ -64,7 +64,7 @@ fi
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
-printf "Would actually send a payout here, doing dry-run for now\n"
+printf "Actually sending payout\n"
 /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 
 printf "Payout cronjob complete\n"
