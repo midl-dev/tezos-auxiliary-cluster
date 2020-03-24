@@ -2,14 +2,10 @@
 # Copyright 2020 - Hodl.farm
 
 set -e
-set -x
 
 printf "Starting payout cronjob\n"
 current_cycle_num=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '.cycle')
 current_cycle_start_height=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '.start_height')
-
-# Note: this was a secondary check. Even if we proceed, backerei is supposed to have recorded its payouts in its database and will just exit.
-# But it has shown to not be 100% effective in a k8s environment.
 
 printf "configure tezos client connectivity to tezos node\n"
 /usr/local/bin/tezos-client -p $PROTOCOL_SHORT -d /var/run/tezos/client -A tezos-public-node-rpc -P 8732 config init -o /var/run/tezos/client/config
@@ -60,6 +56,9 @@ else
     printf "No payment operation found in current cycle from the payout address $HOT_WALLET_PUBLIC_KEY to the witness address $WITNESS_PAYOUT_ADDRESS, launching backerei in no-dry-run mode for current cycle $current_cycle_num\n"
 
 fi
+
+# Note: this was a secondary check. Even if we proceed, backerei is supposed to have recorded its payouts in its database and will just exit.
+# But it has shown to not be 100% effective in a k8s environment.
 
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
