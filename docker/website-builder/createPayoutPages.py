@@ -14,13 +14,13 @@ for cycle,cycle_val in raw_payouts["payoutsByCycle"].items():
             delegators[delegator] = ["---"]
             delegators[delegator].append("layout: about")
             delegators[delegator].append("---")
-            delegators[delegator].append("### Payout to address [%s](https://tezblock.io/account/%s):" % (delegator, delegator))
+            delegators[delegator].append("### Payout to address [%s](https://tzstats.com/%s):" % (delegator, delegator))
             delegators[delegator].append("")
             delegators[delegator].append("|Cycle|Balance|Payout|Actual fee|Payout operation|")
             delegators[delegator].append("|-----|-------|------|----------|----------------|")
         delegator_val=cycle_val["delegators"][delegator]
         if "payoutOperationHash" in delegator_val:
-            payout_operation = "[%s...](https://tezblock.io/transaction/%s)" % ( delegator_val["payoutOperationHash"][0:7], delegator_val["payoutOperationHash"]) 
+            payout_operation = "[%s...](https://tzstats.com/%s)" % ( delegator_val["payoutOperationHash"][0:7], delegator_val["payoutOperationHash"]) 
         else:
             payout_operation = ""
         if delegator_val["estimatedRewards"] != "0":
