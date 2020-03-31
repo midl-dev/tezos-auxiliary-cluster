@@ -87,6 +87,7 @@ kind: Kustomization
 resources:
 - tezos-public-node-stateful-set.yaml
 - backerei-payout.yaml
+- prometheus.yaml
 
 imageTags:
   - name: tezos/tezos
@@ -139,6 +140,12 @@ configMapGenerator:
   - WEBSITE_BUCKET_URL="${google_storage_bucket.website.url}"
   - PAYOUT_URL="http://payout-json/payouts.json"
   - GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/json_key"
+- name: prometheus-configmap
+  namespace: prometheus
+  literals:
+  - GCP_PROJECT="${google_container_cluster.tezos_monitor.project}"
+  - GCP_REGION="${google_container_cluster.tezos_monitor.region}"
+  - KUBE_CLUSTER="${google_container_cluster.tezos_monitor.name}"
 EOK
 kubectl apply -k .
 EOF
