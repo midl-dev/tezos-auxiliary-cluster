@@ -187,9 +187,8 @@ resource "google_container_cluster" "tezos_monitor" {
       disabled = true
     }
 
-    # disable all network policy, for monitoring node
     network_policy_config {
-      disabled = true
+      disabled = false
     }
     horizontal_pod_autoscaling {
       disabled = false
@@ -206,9 +205,8 @@ resource "google_container_cluster" "tezos_monitor" {
     }
   }
 
-  # disable network policy
   network_policy {
-    enabled = false
+    enabled = true
   }
 
   # Set the maintenance window.
