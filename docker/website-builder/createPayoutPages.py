@@ -14,7 +14,7 @@ for cycle,cycle_val in raw_payouts["payoutsByCycle"].items():
             delegators[delegator] = ["---"]
             delegators[delegator].append("layout: about")
             delegators[delegator].append("---")
-            delegators[delegator].append("### Payout to address [%s](https://tzstats.com/%s):" % (delegator, delegator))
+            delegators[delegator].append("### Payout to address [%s](https://tzstats.com/%s){:target=\"_blank\"}:" % (delegator, delegator))
             delegators[delegator].append("")
             delegators[delegator].append("|Cycle|Balance|Payout|Actual fee|Payout operation|")
             delegators[delegator].append("|-----|-------|------|----------|----------------|")
