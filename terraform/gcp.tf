@@ -207,6 +207,7 @@ resource "google_container_cluster" "tezos_monitor" {
 
   network_policy {
     enabled = true
+    provider = "CALICO"
   }
 
   # Set the maintenance window.
