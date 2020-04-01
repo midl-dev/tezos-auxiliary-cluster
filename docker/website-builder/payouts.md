@@ -37,6 +37,17 @@ function expand_details(cycle_id)
         $("#caret_"+cycle_id).removeClass("fa-caret-down").addClass("fa-caret-right");
     }    
 }
+function expand_details_hyperlink(cycle_id) 
+{   
+    if ($("#caret_"+cycle_id).hasClass("fa-caret-right")){
+        $("#row_details_"+cycle_id).show();
+        $("#caret_"+cycle_id).removeClass("fa-caret-right").addClass("fa-caret-down");
+    }
+    else {
+        $("#row_details_"+cycle_id).hide();
+        $("#caret_"+cycle_id).removeClass("fa-caret-down").addClass("fa-caret-right");
+    }    
+}
 </script>
 
 <table class="{{tableclass}}" id="delegators">
@@ -67,7 +78,7 @@ function expand_details(cycle_id)
                             {% if delegator_details_for_cycle[("payoutWithheldDebt")] %}
                             <tr>
                                 <td class="nested_td">Debt amount withheld for cycle 
-                                <a onclick="expand_details({{ delegator_details_for_cycle[("withheldDebtForCycle")] }})" href='#{{ delegator_details_for_cycle[("withheldDebtForCycle")] }}'>{{ delegator_details_for_cycle[("withheldDebtForCycle")] }}</a>:</td>
+                                <a onclick="expand_details_hyperlink({{ delegator_details_for_cycle[("withheldDebtForCycle")] }})" href='#{{ delegator_details_for_cycle[("withheldDebtForCycle")] }}'>{{ delegator_details_for_cycle[("withheldDebtForCycle")] }}</a>:</td>
                                 <td class="nested_td">{{ delegator_details_for_cycle[("payoutWithheldDebt")] }}</td> 
                             </tr>
                             {% endif %}
