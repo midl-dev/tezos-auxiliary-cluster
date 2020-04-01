@@ -6,9 +6,10 @@ from jinja2 import Template
 # 6 - offset to calculate the cycle when the actual payout is processed
 payout_offset = int(os.environ["PAYOUT_DELAY"]) + 6 
 
-save_path = sys.argv[1]
+template_path = sys.argv[1]
+save_path = sys.argv[2]
 
-with open('Payouts.json') as json_file:
+with open('payouts.json') as json_file:
     raw_payouts = json.load(json_file)
 
 #Crreate Payouts by delegator dictionary
@@ -38,7 +39,7 @@ for cycle_id,cycle_details in raw_payouts["payoutsByCycle"].items():
         payout_by_delegator[delegator_id][cycle_id]=delegator_details
 
 for delegator_id,delegator_details in payout_by_delegator.items():   
-    template = Template(open('payouts.md').read()) 
+    template = Template(open(template_path).read()) 
     output = template.render(delegator_id = delegator_id,delegator_details=delegator_details)
     with open("%s/%s.md" % ( save_path, delegator_id), "w") as f:
         f.write(output)

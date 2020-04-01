@@ -140,6 +140,7 @@ configMapGenerator:
   - WEBSITE_BUCKET_URL="${google_storage_bucket.website.url}"
   - PAYOUT_URL="http://payout-json/payouts.json"
   - GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/json_key"
+  - PAYOUT_DELAY="${ var.payout_delay }"
 - name: prometheus-configmap
   namespace: prometheus
   literals:
