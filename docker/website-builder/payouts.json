@@ -4854,152 +4854,212 @@
             "delegators": {
                 "KT1LLiZUmfBbmXid9j5X4p7EzsWNdnf8CbL4": {
                     "balance": "202153737",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "49737",
+                    "finalRewards": "49737",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "KT1TUUbpt651hxpGYpKtQPtXFqeWR397v6Hg": {
                     "balance": "12234207",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "3010",
+                    "finalRewards": "3010",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1LATHxwvYM5GR8KFYEbfwS3KZj4HLB4bDD": {
                     "balance": "12146103485",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "2988387",
+                    "finalRewards": "2988387",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1LUkwu49adyuKPyEUoL7UKmAhbSCgsLyZg": {
                     "balance": "13257912868",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "3261933",
+                    "finalRewards": "3261933",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1LoabkB3kofr5D2f6DDJ3YE33bdUHp7Q1j": {
                     "balance": "3013226003",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "741364",
+                    "finalRewards": "741364",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1LrNHo9Z2hUNDnUGL41aggBdg1hJL3Nm7r": {
                     "balance": "5012797985",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "1233332",
+                    "finalRewards": "1233332",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1NHXoAAXaxpRZJDKGRfFef4v1rGsXp16r2": {
                     "balance": "3013084562",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "741329",
+                    "finalRewards": "741329",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1NksTBvE6N6A7NDnyfx2AhtcrEJ5wtvWYA": {
                     "balance": "324608",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "79",
+                    "finalRewards": "79",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1NzLCJnJFSzPnKRMdTm7gqV3de82qX7AKs": {
                     "balance": "3012330710",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "741143",
+                    "finalRewards": "741143",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1P5LHw9Yn1okF9wZ2JBeQwY9E9APX87FQM": {
                     "balance": "10029801289",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "2467699",
+                    "finalRewards": "2467699",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1QX8NAGmYf44AHoDLfAscPixLpDSZ3nuQ9": {
                     "balance": "2281042601",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "561220",
+                    "finalRewards": "561220",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1Qnie8K3bgE9bQwMnSTTSyPvUhAmzyrG1B": {
                     "balance": "3018833064",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "742743",
+                    "finalRewards": "742743",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1Rkm92WsvQH3i3LTgL8vGu3CccoGw6Dgvc": {
                     "balance": "78467",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "19",
+                    "finalRewards": "19",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1TPbqjqscgiGCMeAaar46WD9fFDaVktEhG": {
                     "balance": "367577539",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "90437",
+                    "finalRewards": "90437",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1URwsTL4wACcVuEfAcLPTumqJJ65VcVw6u": {
                     "balance": "3018760453",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "742725",
+                    "finalRewards": "742725",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1UXx676RtjKAB4mfEPYw3FQzNUXndb6Xcx": {
                     "balance": "3018760390",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "742725",
+                    "finalRewards": "742725",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1ZPFEBFbthpc5htyq4ocxBgVEwiyPhayja": {
                     "balance": "176130408",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "43334",
+                    "finalRewards": "43334",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1ZrkShwbE9sVenytpUAEqnrNU1hwZuw9xF": {
                     "balance": "9880901",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "2431",
+                    "finalRewards": "2431",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1b12ASK7u2taDc4QvhFLWWB8iNc5qRwSXi": {
                     "balance": "68928146",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "16958",
+                    "finalRewards": "16958",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1bDKdDHyhy7GBrVRA3dVAr8XJn7Vz2xBVU": {
                     "balance": "1276230257",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "313999",
+                    "finalRewards": "313999",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1bH9hv3W4pNWg5EM3CxCutnnF42QvFfiSP": {
                     "balance": "17427250",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "4287",
+                    "finalRewards": "4287",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1bjjMys6uCaxcu6DxKuFJ8f1TStW8nRezy": {
                     "balance": "355632024",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "87498",
+                    "finalRewards": "87498",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1cRPkkj3zxggc9YtNP7c6RYuBFRQsP9baX": {
                     "balance": "4907",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "1",
+                    "finalRewards": "1",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1cif4FLT7bxTtuyMxNq1AgEwhSGMeBnF6Y": {
                     "balance": "5893175789",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "1449937",
+                    "finalRewards": "1449937",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1cq2aeNirVH7aDPG3LrHNsyEFfztiBiZ24": {
                     "balance": "14062060",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "3459",
+                    "finalRewards": "3459",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1eFM9Y3bAZG7XfH1Ho27Rgrt4EFxWbdwTL": {
                     "balance": "3013712957",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "741484",
+                    "finalRewards": "741484",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1en6HHMGVgFAuQJpYjWpe7JR8XigqcM5qw": {
                     "balance": "15729561",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "3870",
+                    "finalRewards": "3870",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1gaKD4JTao89abrhqfrQE1DWgHbLT9f6rc": {
                     "balance": "11053057403",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "2719457",
+                    "finalRewards": "2719457",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1hodLFy8YDHtf1qJ3XH1gCyeXfwWEitkj9": {
                     "balance": "132324025",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "32556",
+                    "finalRewards": "32556",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 },
                 "tz1iyKYw7PQ5CaL3pQRAC8m4zMHH1orzZxGZ": {
                     "balance": "1016342345",
+                    "estimatedDifference": "0",
                     "estimatedRewards": "250057",
+                    "finalRewards": "250057",
                     "payoutOperationHash": "opUVeZoePUpUizaTyp9fu1TzBXbh7AEA4yRCFcYqWSbtgVCbxpQ"
                 }
             },
@@ -5013,6 +5073,18 @@
             "fee": {
                 "denominator": 20,
                 "numerator": 1
+            },
+            "finalBakerRewards": {
+                "bondRewards": "3129237",
+                "feeRewards": "1093538",
+                "looseRewards": "15",
+                "totalRewards": "4222790"
+            },
+            "finalTotalRewards": {
+                "estimatedDifference": "0",
+                "paid": "25000000",
+                "realized": "25000000",
+                "realizedDifference": "0"
             },
             "stakingBalance": "96530310595",
             "stolenBlocks": []
@@ -6110,6 +6182,275 @@
             "payoutAmount": "16675531",
             "payoutWithheldDebt": "965989",
             "stakingBalance": "102140736489",
+            "stolenBlocks": []
+        },
+        "222": {
+            "delegators": {
+                "KT1LLiZUmfBbmXid9j5X4p7EzsWNdnf8CbL4": {
+                    "balance": "202730903",
+                    "estimatedRewards": "129604",
+                    "payoutAmount": "129604",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "KT1TUUbpt651hxpGYpKtQPtXFqeWR397v6Hg": {
+                    "balance": "12269135",
+                    "estimatedRewards": "7843",
+                    "payoutAmount": "7843",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1LATHxwvYM5GR8KFYEbfwS3KZj4HLB4bDD": {
+                    "balance": "12180781846",
+                    "estimatedRewards": "7787068",
+                    "payoutAmount": "7787068",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1LUkwu49adyuKPyEUoL7UKmAhbSCgsLyZg": {
+                    "balance": "13295765558",
+                    "estimatedRewards": "8499867",
+                    "payoutAmount": "8499867",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1LoabkB3kofr5D2f6DDJ3YE33bdUHp7Q1j": {
+                    "balance": "3021829068",
+                    "estimatedRewards": "1931829",
+                    "payoutAmount": "1931829",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1NHXoAAXaxpRZJDKGRfFef4v1rGsXp16r2": {
+                    "balance": "3021687223",
+                    "estimatedRewards": "1931738",
+                    "payoutAmount": "1931738",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1NksTBvE6N6A7NDnyfx2AhtcrEJ5wtvWYA": {
+                    "balance": "325532",
+                    "estimatedRewards": "208",
+                    "payoutAmount": "208",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1NzLCJnJFSzPnKRMdTm7gqV3de82qX7AKs": {
+                    "balance": "2120186823",
+                    "estimatedRewards": "1355417",
+                    "payoutAmount": "1355417",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1P5LHw9Yn1okF9wZ2JBeQwY9E9APX87FQM": {
+                    "balance": "13805085314",
+                    "estimatedRewards": "8825471",
+                    "payoutAmount": "8825471",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1QX8NAGmYf44AHoDLfAscPixLpDSZ3nuQ9": {
+                    "balance": "2287555208",
+                    "estimatedRewards": "1462414",
+                    "payoutAmount": "1462414",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1Qnie8K3bgE9bQwMnSTTSyPvUhAmzyrG1B": {
+                    "balance": "3027452137",
+                    "estimatedRewards": "1935423",
+                    "payoutAmount": "1935423",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1Rkm92WsvQH3i3LTgL8vGu3CccoGw6Dgvc": {
+                    "balance": "78687",
+                    "estimatedRewards": "50",
+                    "payoutAmount": "50",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1SwCGAfQbXv1VWctGv4PfG1uLx2HXrQpbs": {
+                    "balance": "8167452525",
+                    "estimatedRewards": "5221381",
+                    "payoutAmount": "5221381",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH"
+                },
+                "tz1TPbqjqscgiGCMeAaar46WD9fFDaVktEhG": {
+                    "balance": "369149994",
+                    "estimatedRewards": "235994",
+                    "payoutAmount": "235994",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1URwsTL4wACcVuEfAcLPTumqJJ65VcVw6u": {
+                    "balance": "3027379319",
+                    "estimatedRewards": "1935377",
+                    "payoutAmount": "1935377",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1UXx676RtjKAB4mfEPYw3FQzNUXndb6Xcx": {
+                    "balance": "3027379256",
+                    "estimatedRewards": "1935377",
+                    "payoutAmount": "1935377",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1XhZUHsJAFp4FHoeeQQ7auVBk5j6xoUKbS": {
+                    "balance": "1599981044",
+                    "estimatedRewards": "1022853",
+                    "payoutAmount": "1022853",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH"
+                },
+                "tz1ZPFEBFbthpc5htyq4ocxBgVEwiyPhayja": {
+                    "balance": "176633913",
+                    "estimatedRewards": "112920",
+                    "payoutAmount": "112920",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1ZrkShwbE9sVenytpUAEqnrNU1hwZuw9xF": {
+                    "balance": "9909109",
+                    "estimatedRewards": "6334",
+                    "payoutAmount": "6334",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1b12ASK7u2taDc4QvhFLWWB8iNc5qRwSXi": {
+                    "balance": "69125219",
+                    "estimatedRewards": "44191",
+                    "payoutAmount": "44191",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1bDKdDHyhy7GBrVRA3dVAr8XJn7Vz2xBVU": {
+                    "balance": "327841",
+                    "estimatedRewards": "209",
+                    "payoutAmount": "209",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1bH9hv3W4pNWg5EM3CxCutnnF42QvFfiSP": {
+                    "balance": "17477003",
+                    "estimatedRewards": "11172",
+                    "payoutAmount": "11172",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1bjjMys6uCaxcu6DxKuFJ8f1TStW8nRezy": {
+                    "balance": "517558102",
+                    "estimatedRewards": "330870",
+                    "payoutAmount": "330870",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1cRPkkj3zxggc9YtNP7c6RYuBFRQsP9baX": {
+                    "balance": "4918",
+                    "estimatedRewards": "3",
+                    "payoutAmount": "3",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1cif4FLT7bxTtuyMxNq1AgEwhSGMeBnF6Y": {
+                    "balance": "6048188821",
+                    "estimatedRewards": "3866554",
+                    "payoutAmount": "3866554",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1cq2aeNirVH7aDPG3LrHNsyEFfztiBiZ24": {
+                    "balance": "14182319",
+                    "estimatedRewards": "9066",
+                    "payoutAmount": "9066",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1eFM9Y3bAZG7XfH1Ho27Rgrt4EFxWbdwTL": {
+                    "balance": "3068827838",
+                    "estimatedRewards": "1961875",
+                    "payoutAmount": "1961875",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1ehMzCd9VyhKjxq5xNH8p9s3kBvFT3FbkK": {
+                    "balance": "101198894",
+                    "estimatedRewards": "64695",
+                    "payoutAmount": "64695",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH"
+                },
+                "tz1en6HHMGVgFAuQJpYjWpe7JR8XigqcM5qw": {
+                    "balance": "15814515",
+                    "estimatedRewards": "10110",
+                    "payoutAmount": "10110",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1gaKD4JTao89abrhqfrQE1DWgHbLT9f6rc": {
+                    "balance": "10020555024",
+                    "estimatedRewards": "6406053",
+                    "payoutAmount": "6406053",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1hodLFy8YDHtf1qJ3XH1gCyeXfwWEitkj9": {
+                    "balance": "85683275",
+                    "estimatedRewards": "54776",
+                    "payoutAmount": "54776",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                },
+                "tz1iyKYw7PQ5CaL3pQRAC8m4zMHH1orzZxGZ": {
+                    "balance": "2286052",
+                    "estimatedRewards": "1461",
+                    "payoutAmount": "1461",
+                    "payoutOperationHash": "oo9ZRjk1RFRpE6KCkKCM6wtqTY5J56sVaZC9zZjEpFXgHgGyBXH",
+                    "payoutWithheldDebt": "0",
+                    "withheldDebtForCycle": 216
+                }
+            },
+            "estimatedBakerRewards": {
+                "bondRewards": "8646614",
+                "feeRewards": "3005169",
+                "looseRewards": "14",
+                "totalRewards": "11651797"
+            },
+            "estimatedTotalRewards": "68750000",
+            "fee": {
+                "denominator": 20,
+                "numerator": 1
+            },
+            "payoutAmount": "57098203",
+            "payoutWithheldDebt": "0",
+            "stakingBalance": "102163908547",
             "stolenBlocks": []
         }
     }
