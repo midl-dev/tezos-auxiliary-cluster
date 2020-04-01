@@ -14,7 +14,7 @@ mkdir website/payouts
 
 cp -v /var/run/backerei/payouts/payouts.json .
 
-python3 /createPayoutPages.py $(pwd)/website/payouts
+python3 /createPayoutPages.py /payouts.md $(pwd)/website/payouts
 
 pushd website
 
