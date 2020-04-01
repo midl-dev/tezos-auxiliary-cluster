@@ -18,23 +18,23 @@ for cycle_id,cycle_details in raw_payouts["payoutsByCycle"].items():
         if delegator_id not in payout_by_delegator:
             payout_by_delegator[delegator_id]={}
         delegator_details["paid_in_cycle"]= int(cycle_id)+payout_offset
-        delegator_details["balance"]= 'ꜩ{:12,.6f}'.format(int(delegator_details["balance"])/1000000)
+        delegator_details["balance"]= 'ꜩ{:13,.6f}'.format(int(delegator_details["balance"])/1000000)
         if  "estimatedDifference" in delegator_details:
-            delegator_details["estimatedDifference"] = 'ꜩ{:12,.6f}'.format(int(delegator_details["estimatedDifference"])/1000000)
+            delegator_details["estimatedDifference"] = 'ꜩ{:13,.6f}'.format(int(delegator_details["estimatedDifference"])/1000000)
         if  "finalRewards" in delegator_details:
-            delegator_details["finalRewards"] = 'ꜩ{:12,.6f}'.format(int(delegator_details["finalRewards"])/1000000)
+            delegator_details["finalRewards"] = 'ꜩ{:13,.6f}'.format(int(delegator_details["finalRewards"])/1000000)
         if "payoutAmount" in delegator_details:
-            delegator_details["payoutAmount"]= 'ꜩ{:12,.6f}'.format(int(delegator_details["payoutAmount"])/1000000)
+            delegator_details["payoutAmount"]= 'ꜩ{:13,.6f}'.format(int(delegator_details["payoutAmount"])/1000000)
         else: 
             #the case statement below accomodates legacy data structure before cycle 210
-            delegator_details["payoutAmount"]= 'ꜩ{:12,.6f}'.format(int(delegator_details["estimatedRewards"])/1000000)
+            delegator_details["payoutAmount"]= 'ꜩ{:13,.6f}'.format(int(delegator_details["estimatedRewards"])/1000000)
         if "payoutWithheldDebt" in delegator_details:
             if delegator_details["payoutWithheldDebt"]=="0":
                 delegator_details.pop("payoutWithheldDebt")
             else:
-                delegator_details["payoutWithheldDebt"]= '-ꜩ{:12,.6f}'.format(int(delegator_details["payoutWithheldDebt"])/1000000)
+                delegator_details["payoutWithheldDebt"]= '-ꜩ{:13,.6f}'.format(int(delegator_details["payoutWithheldDebt"])/1000000)
 
-        delegator_details["estimatedRewards"]= 'ꜩ{:12,.6f}'.format(int(delegator_details["estimatedRewards"])/1000000)
+        delegator_details["estimatedRewards"]= 'ꜩ{:13,.6f}'.format(int(delegator_details["estimatedRewards"])/1000000)
         payout_by_delegator[delegator_id][cycle_id]=delegator_details
 
 for delegator_id,delegator_details in payout_by_delegator.items():   
@@ -42,7 +42,4 @@ for delegator_id,delegator_details in payout_by_delegator.items():
     output = template.render(delegator_id = delegator_id,delegator_details=delegator_details)
     with open("%s/%s.md" % ( save_path, delegator_id), "w") as f:
         f.write(output)
-       
-
-       # '{0:.2f}'.format(num) if num>=0 else '({0:.2f})'.format(abs(num))
      
