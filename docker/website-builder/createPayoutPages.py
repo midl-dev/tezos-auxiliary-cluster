@@ -21,7 +21,10 @@ for cycle_id,cycle_details in raw_payouts["payoutsByCycle"].items():
         delegator_details["paid_in_cycle"]= int(cycle_id)+payout_offset
         delegator_details["balance"]= 'ꜩ{:13,.6f}'.format(int(delegator_details["balance"])/1000000)
         if  "estimatedDifference" in delegator_details:
-            delegator_details["estimatedDifference"] = 'ꜩ{:13,.6f}'.format(int(delegator_details["estimatedDifference"])/1000000)
+            if delegator_details["estimatedDifference"]=="0":
+                delegator_details.pop("estimatedDifference")
+            else:
+                delegator_details["estimatedDifference"] = 'ꜩ{:13,.6f}'.format(int(delegator_details["estimatedDifference"])/1000000)
         if  "finalRewards" in delegator_details:
             delegator_details["finalRewards"] = 'ꜩ{:13,.6f}'.format(int(delegator_details["finalRewards"])/1000000)
         if "payoutAmount" in delegator_details:
