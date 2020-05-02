@@ -16,6 +16,7 @@ metadata:
 spec:
   # every 3 hours
   schedule: "7 */3 * * *"
+  concurrencyPolicy:  Forbid
   jobTemplate:
     spec:
       template:
