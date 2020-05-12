@@ -1,7 +1,7 @@
 ---
 layout: about
 ---
-### Payout to address [{{ delegator_id }}](https://tzstats.com/{{ delegator_id }}){:target="_blank"}:
+### Payout to address [{{ delegator_id }}](https://tzkt.io/{{ delegator_id }}){:target="_blank"}:
 <style>
 table.nested_table {
 border-collapse: collapse;
@@ -102,7 +102,7 @@ function expand_details_hyperlink(cycle_id)
                                 {% if delegator_details_for_cycle[("payoutOperationHash")] %}
                              <tr>
                                 <td class="nested_td">Payment transaction on Tezos chain:</td>
-                                <td class="nested_td"><a href="https://tzstats.com/{{ delegator_details_for_cycle[("payoutOperationHash")] }}" title="{{ delegator_details_for_cycle[("payoutOperationHash")] }}" target="_blank">{{ delegator_details_for_cycle[("payoutOperationHash")][:10] }}..</a></td>
+                                <td class="nested_td"><a href="https://tzkt.io/{{ delegator_details_for_cycle[("payoutOperationHash")] }}" title="{{ delegator_details_for_cycle[("payoutOperationHash")] }}" target="_blank">{{ delegator_details_for_cycle[("payoutOperationHash")][:10] }}..</a></td>
                             </tr>
                             {% endif %}
                             <tr><td class="nested_td_2"></td></tr>
