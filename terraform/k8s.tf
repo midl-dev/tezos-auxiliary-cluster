@@ -1,21 +1,42 @@
-# Query the client configuration for our current service account, which shoudl
-# have permission to talk to the GKE cluster since it created it.
-data "google_client_config" "current" {
-}
-
-# This file contains all the interactions with Kubernetes
-provider "kubernetes" {
-  load_config_file = false
-  host             = google_container_cluster.tezos_monitor.endpoint
-
-  cluster_ca_certificate = base64decode(
-    google_container_cluster.tezos_monitor.master_auth[0].cluster_ca_certificate,
-  )
-  token = data.google_client_config.current.access_token
-}
-
-
 # Write the hot wallet private key secret
+resource "null_resource" "push_containers" {
+
+  triggers = {
+    host = md5(module.terraform-gke-blockchain.kubernetes_endpoint)
+    cluster_ca_certificate = md5(
+      module.terraform-gke-blockchain.cluster_ca_certificate,
+    )
+  }
+  provisioner "local-exec" {
+    command = <<EOF
+
+
+find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d  -printf '%f\n'| while read container; do
+  
+  pushd ${path.module}/../docker/$container
+  cp Dockerfile.template Dockerfile
+  sed -i "s/((tezos_version))/${var.tezos_version}/" Dockerfile
+  cat << EOY > cloudbuild.yaml
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', "gcr.io/${module.terraform-gke-blockchain.project}/$container:${var.kubernetes_namespace}-latest", '.']
+images: ["gcr.io/${module.terraform-gke-blockchain.project}/$container:${var.kubernetes_namespace}-latest"]
+EOY
+  gcloud builds submit --project ${module.terraform-gke-blockchain.project} --config cloudbuild.yaml .
+  rm -v Dockerfile
+  rm cloudbuild.yaml
+  popd
+done
+EOF
+  }
+}
+
+resource "kubernetes_namespace" "tezos_namespace" {
+  metadata {
+    name = var.kubernetes_namespace
+  }
+}
+
 resource "kubernetes_secret" "hot_wallet_private_key" {
   metadata {
     name = "hot-wallet"
@@ -31,125 +52,60 @@ resource "kubernetes_secret" "website_builder_key" {
     name = "website-builder-credentials"
   }
   data = {
-    json_key = "${base64decode(google_service_account_key.website_builder_key.private_key)}"
+    json_key = "${var.website_builder_private_key}"
   }
 }
 
-resource "null_resource" "push_containers" {
-
-  triggers = {
-    host = md5(google_container_cluster.tezos_monitor.endpoint)
-    client_certificate = md5(
-      google_container_cluster.tezos_monitor.master_auth[0].client_certificate,
-    )
-    client_key = md5(google_container_cluster.tezos_monitor.master_auth[0].client_key)
-    cluster_ca_certificate = md5(
-      google_container_cluster.tezos_monitor.master_auth[0].cluster_ca_certificate,
-    )
+# FIXME this is a bug in kustomize where it will not prepend characters to the storageClass requirement
+# to address it, we define it here. At some point, later, it will stop being needed.
+resource "kubernetes_storage_class" "local-ssd" {
+  count = var.kubernetes_name_prefix == "dot" ? 1  : 0
+  metadata {
+    name = "local-ssd"
   }
-  provisioner "local-exec" {
-    command = <<EOF
-gcloud auth configure-docker --project "${google_container_cluster.tezos_monitor.project}"
-
-find ${path.module}/../docker -mindepth 1 -type d  -printf '%f\n'| while read container; do
-  pushd ${path.module}/../docker/$container
-  sed -e "s/((tezos_container_version))/${var.tezos_network}/" Dockerfile.template > Dockerfile
-  tag="gcr.io/${google_container_cluster.tezos_monitor.project}/$container:latest"
-  podman build --format docker -t $tag .
-  podman push $tag
-  rm -v Dockerfile
-  popd
-done
-EOF
+  storage_provisioner = "kubernetes.io/gce-pd"
+  parameters = {
+    type = "pd-ssd"
   }
 }
 
 resource "null_resource" "apply" {
-  triggers = {
-    host = md5(google_container_cluster.tezos_monitor.endpoint)
-    client_certificate = md5(
-      google_container_cluster.tezos_monitor.master_auth[0].client_certificate,
-    )
-    client_key = md5(google_container_cluster.tezos_monitor.master_auth[0].client_key)
-    cluster_ca_certificate = md5(
-      google_container_cluster.tezos_monitor.master_auth[0].cluster_ca_certificate,
-    )
-  }
   provisioner "local-exec" {
+
     command = <<EOF
-gcloud container clusters get-credentials "${google_container_cluster.tezos_monitor.name}" --region="${google_container_cluster.tezos_monitor.region}" --project="${google_container_cluster.tezos_monitor.project}"
+set -e
+set -x
+gcloud container clusters get-credentials "${module.terraform-gke-blockchain.name}" --region="${module.terraform-gke-blockchain.location}" --project="${module.terraform-gke-blockchain.project}"
 
-cd ${path.module}/../k8s
-cat << EOK > kustomization.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-- tezos-public-node-stateful-set.yaml
-- backerei-payout.yaml
-- prometheus.yaml
-
-imageTags:
-  - name: tezos/tezos
-    newTag: ${var.tezos_container_version}
-  - name: website-builder
-    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/website-builder
-    newTag: latest
-  - name: tezos-network-monitor
-    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-network-monitor
-    newTag: latest
-  - name: tezos-archive-downloader
-    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-archive-downloader
-    newTag: latest
-  - name: tezos-node-with-probes
-    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/tezos-node-with-probes
-    newTag: latest
-  - name: payout-cron
-    newName: gcr.io/${google_container_cluster.tezos_monitor.project}/payout-cron
-    newTag: latest
-
-configMapGenerator:
-- name: tezos-configmap
-  literals:
-  - ARCHIVE_URL="${var.archive_url}"
-  - NODE_HOST="localhost"
-  - DATA_DIR=/var/run/tezos
-  - PUBLIC_BAKING_KEY="${var.public_baking_key}"
-  - PROTOCOL="${var.protocol}"
-  - PROTOCOL_SHORT="${var.protocol_short}"
-- name: tezos-network-monitor-configmap
-  literals:
-  - NODE_URL="http://localhost:8732"
-  - SLACK_URL="${var.slack_url}"
-  - SLACK_CHANNEL="general"
-  - HOT_WALLET_PUBLIC_KEY="${var.hot_wallet_public_key}" 
-  - PUBLIC_BAKING_KEY="${var.public_baking_key}"
-- name: backerei-payout-configmap
-  literals:
-  - HOT_WALLET_PUBLIC_KEY="${var.hot_wallet_public_key}" 
-  - SNAPSHOT_INTERVAL="${ var.tezos_network == "mainnet" ? 256 : 128 }"
-  - CYCLE_LENGTH="${ var.tezos_network == "mainnet" ? 4096 : 2048 }"
-  - PRESERVED_CYCLES="${ var.tezos_network == "mainnet" ? 5 : 3 }"
-  - PAYOUT_DELAY="${ var.payout_delay }"
-  - PAYOUT_FEE="${ var.payout_fee }"
-  - PAYOUT_STARTING_CYCLE="${ var.payout_starting_cycle }"
-  - WITNESS_PAYOUT_ADDRESS="${var.witness_payout_address}"
-- name: website-builder-configmap
-  literals:
-  - WEBSITE_ARCHIVE="${var.website_archive}"
-  - WEBSITE_BUCKET_URL="${google_storage_bucket.website.url}"
-  - PAYOUT_URL="http://payout-json/payouts.json"
-  - GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/json_key"
-  - PAYOUT_DELAY="${ var.payout_delay }"
-- name: prometheus-configmap
-  namespace: prometheus
-  literals:
-  - GCP_PROJECT="${google_container_cluster.tezos_monitor.project}"
-  - GCP_REGION="${google_container_cluster.tezos_monitor.region}"
-  - KUBE_CLUSTER="${google_container_cluster.tezos_monitor.name}"
+mkdir -p ${path.module}/k8s-${var.kubernetes_namespace}
+cp -v ${path.module}/../k8s/*yaml* ${path.module}/k8s-${var.kubernetes_namespace}
+pushd ${path.module}/k8s-${var.kubernetes_namespace}
+cat <<EOK > kustomization.yaml
+${templatefile("${path.module}/../k8s/kustomization.yaml.tmpl",
+     { "project" : module.terraform-gke-blockchain.project,
+       "website_archive": var.website_archive,
+       "tezos_version": var.tezos_version,
+       "archive_url": var.archive_url,
+       "public_baking_key": var.public_baking_key,
+       "protocol": var.protocol,
+       "protocol_short": var.protocol_short,
+       "slack_url": var.slack_url,
+       "hot_wallet_public_key": var.hot_wallet_public_key,
+       "tezos_network": var.tezos_network,
+       "payout_delay": var.payout_delay,
+       "payout_fee": var.payout_fee,
+       "payout_starting_cycle": var.payout_starting_cycle,
+       "witness_payout_address": var.witness_payout_address,
+       "website_archive": var.website_archive,
+       "website_bucket_url": var.website_bucket_url,
+       "kubernetes_namespace": var.kubernetes_namespace,
+       "kubernetes_name_prefix": var.kubernetes_name_prefix})}
 EOK
 kubectl apply -k .
+popd
+rm -rvf ${path.module}/k8s-${var.kubernetes_namespace}
 EOF
 
   }
+  depends_on = [ null_resource.push_containers, kubernetes_namespace.tezos_namespace ]
 }

@@ -1,13 +1,18 @@
 Tezos auxiliary cluster
 =======================
 
-This is the second part of the Tezos-on-GKE project.
+This repository is part of the [Tezos Suite by MIDL.dev](https://tezos-docs.midl.dev/)
 
 This is a set of terraform and kubernetes code to deply a tezos node in k8s that performs the following operations:
 
 * monitors a baking operation with [Tezos Network Monitor](https://gitlab.com/polychainlabs/tezos-network-monitor)
 * sends payouts from a hot wallet with Backerei. The key is stored in a Kubernetes secret.
 * deploys a baking website
+
+How to deploy
+-------------
+
+Follow instructions in [Tezos suite documentation](https://tezos-docs.midl.dev/deploy-auxiliary-cluster.html)
 
 Monitoring
 ----------
