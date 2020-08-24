@@ -38,13 +38,19 @@ spec:
       containers:
       - name: tezos-public-node
         image: tezos-node-with-probes
-        args: [ "tezos-node", "--history-mode", "archive" ]
+        args: [ "tezos-node", "--history-mode", "archive", "--network", "$(TEZOS_NETWORK)" ]
         ports:
         - containerPort: 8732
           name: tezos-rpc-port
         volumeMounts:
         - name: tezos-public-node-pv-claim
           mountPath: /var/run/tezos/node
+        env:
+        - name: TEZOS_NETWORK
+          valueFrom:
+            configMapKeyRef:
+              name: tezos-configmap
+              key: TEZOS_NETWORK
         resources:
           limits:
             cpu: 0

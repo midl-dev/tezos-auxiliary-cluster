@@ -8,10 +8,10 @@ current_cycle_num=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '
 current_cycle_start_height=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '.start_height')
 
 printf "configure tezos client connectivity to tezos node\n"
-/usr/local/bin/tezos-client -p $PROTOCOL_SHORT -d /var/run/tezos/client -A tezos-public-node-rpc -P 8732 config init -o /var/run/tezos/client/config
+/usr/local/bin/tezos-client -p $PROTOCOL_SHORT --network $TEZOS_NETWORK -d /var/run/tezos/client -A tezos-public-node-rpc -P 8732 config init -o /var/run/tezos/client/config
 
 printf "import payout key into tezos-client\n"
-/usr/local/bin/tezos-client -p $PROTOCOL_SHORT -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
+/usr/local/bin/tezos-client -p $PROTOCOL_SHORT --network $TEZOS_NETWORK -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
 
 config_backerei() {
   printf "configuring backerei with starting-cycle $1\n"
@@ -63,7 +63,7 @@ fi
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
-printf "Actually sending payout\n"
-/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
+printf "Actually sending payout- nope, dry run for now in test\n"
+/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
 
 printf "Payout cronjob complete\n"
