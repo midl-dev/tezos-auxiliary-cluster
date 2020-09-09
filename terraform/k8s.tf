@@ -85,7 +85,7 @@ mkdir -pv tezos-public-node
 cat <<EOK > tezos-public-node/kustomization.yaml
 ${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/kustomization.yaml.tmpl", local.kubernetes_variables)}
 EOK
-%{ for bakername, baker_data in keys(var.bakers) }
+%{ for bakername, baker_data in var.bakers }
 mkdir -pv auxiliary-cluster-${bakername}
 cat <<EOK > auxiliary-cluster-${bakername}/kustomization.yaml
 ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.tmpl",
@@ -94,7 +94,6 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
        "public_baking_key": baker_data["public_baking_key"],
        "slack_url": baker_data["slack_url"],
        "hot_wallet_public_key": baker_data["hot_wallet_public_key"],
-       "tezos_network": baker_data["tezos_network"],
        "payout_delay": baker_data["payout_delay"],
        "payout_fee": baker_data["payout_fee"],
        "payout_starting_cycle": baker_data["payout_starting_cycle"],
