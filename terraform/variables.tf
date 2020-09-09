@@ -121,16 +121,6 @@ variable "hot_wallet_public_key" {
   description = "The public key of the hot wallet or payout wallet (where rewards come from)"
 }
 
-variable "hot_wallet_private_key" {
-  type = string
-  description = "The private key of the hot wallet or payout wallet (where rewards come from). must be unencrypted and without the unencrypted: string"
-}
-
-variable "website_builder_private_key" {
-  type = string
-  description = "The base64 encoded private key to push to the google storage bucket for the baking website"
-}
-
 variable "payout_delay" {
   type =string
   description = "Number of cycles to delay the payout compared to PRESERVED_CYCLES (can be negatives to pay out in advance)"

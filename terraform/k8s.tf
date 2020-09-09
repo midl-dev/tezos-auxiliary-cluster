@@ -37,25 +37,6 @@ resource "kubernetes_namespace" "tezos_namespace" {
   }
 }
 
-resource "kubernetes_secret" "hot_wallet_private_key" {
-  metadata {
-    name = "hot-wallet"
-  }
-
-  data = {
-    "hot_wallet_private_key" = "${var.hot_wallet_private_key}"
-  }
-}
-
-resource "kubernetes_secret" "website_builder_key" {
-  metadata {
-    name = "website-builder-credentials"
-  }
-  data = {
-    json_key = "${var.website_builder_private_key}"
-  }
-}
-
 # FIXME this is a bug in kustomize where it will not prepend characters to the storageClass requirement
 # to address it, we define it here. At some point, later, it will stop being needed.
 resource "kubernetes_storage_class" "local-ssd" {

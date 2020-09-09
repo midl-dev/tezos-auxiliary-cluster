@@ -40,11 +40,6 @@ spec:
                 configMapKeyRef:
                   name: tezos-configmap
                   key: PROTOCOL_SHORT
-            - name: HOT_WALLET_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: hot-wallet
-                  key: hot_wallet_private_key
             - name: HOT_WALLET_PUBLIC_KEY
               valueFrom:
                 configMapKeyRef:
