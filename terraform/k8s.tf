@@ -1,3 +1,15 @@
+locals {
+  kubernetes_variables = { "project" : module.terraform-gke-blockchain.project,
+       "tezos_version": var.tezos_version,
+       "tezos_network": var.tezos_network,
+       "bakers": var.bakers,
+       "archive_url": var.archive_url,
+       "protocol": var.protocol,
+       "protocol_short": var.protocol_short,
+       "kubernetes_namespace": var.kubernetes_namespace,
+       "kubernetes_name_prefix": var.kubernetes_name_prefix}
+}
+
 # Write the hot wallet private key secret
 resource "null_resource" "push_containers" {
 
@@ -8,12 +20,14 @@ resource "null_resource" "push_containers" {
     )
   }
   provisioner "local-exec" {
+    interpreter = [ "/bin/bash", "-c" ]
     command = <<EOF
+set -x
 
-
-find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d  -printf '%f\n'| while read container; do
-  
-  pushd ${path.module}/../docker/$container
+build_container () {
+  set -x
+  cd $1
+  container=$(basename $1)
   cp Dockerfile.template Dockerfile
   sed -i "s/((tezos_version))/${var.tezos_version}/" Dockerfile
   cat << EOY > cloudbuild.yaml
@@ -25,8 +39,9 @@ EOY
   gcloud builds submit --project ${module.terraform-gke-blockchain.project} --config cloudbuild.yaml .
   rm -v Dockerfile
   rm cloudbuild.yaml
-  popd
-done
+}
+export -f build_container
+find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d -exec bash -c 'build_container "$0"' {} \; -printf '%f\n'
 EOF
   }
 }
@@ -58,32 +73,37 @@ set -e
 set -x
 gcloud container clusters get-credentials "${module.terraform-gke-blockchain.name}" --region="${module.terraform-gke-blockchain.location}" --project="${module.terraform-gke-blockchain.project}"
 
+rm -rvf ${path.module}/k8s-${var.kubernetes_namespace}
 mkdir -p ${path.module}/k8s-${var.kubernetes_namespace}
 cp -v ${path.module}/../k8s/*yaml* ${path.module}/k8s-${var.kubernetes_namespace}
-pushd ${path.module}/k8s-${var.kubernetes_namespace}
+cd ${abspath(path.module)}/k8s-${var.kubernetes_namespace}
 cat <<EOK > kustomization.yaml
-${templatefile("${path.module}/../k8s/kustomization.yaml.tmpl",
-     { "project" : module.terraform-gke-blockchain.project,
-       "website_archive": var.website_archive,
-       "tezos_version": var.tezos_version,
-       "archive_url": var.archive_url,
-       "public_baking_key": var.public_baking_key,
-       "protocol": var.protocol,
-       "protocol_short": var.protocol_short,
-       "slack_url": var.slack_url,
-       "hot_wallet_public_key": var.hot_wallet_public_key,
-       "tezos_network": var.tezos_network,
-       "payout_delay": var.payout_delay,
-       "payout_fee": var.payout_fee,
-       "payout_starting_cycle": var.payout_starting_cycle,
-       "witness_payout_address": var.witness_payout_address,
-       "website_archive": var.website_archive,
-       "website_bucket_url": var.website_bucket_url,
-       "kubernetes_namespace": var.kubernetes_namespace,
-       "kubernetes_name_prefix": var.kubernetes_name_prefix})}
+${templatefile("${path.module}/../k8s/kustomization.yaml.tmpl", local.kubernetes_variables)}
 EOK
+
+mkdir -pv tezos-public-node
+cat <<EOK > tezos-public-node/kustomization.yaml
+${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/kustomization.yaml.tmpl", local.kubernetes_variables)}
+EOK
+%{ for bakername, baker_data in keys(var.bakers) }
+mkdir -pv auxiliary-cluster-${bakername}
+cat <<EOK > auxiliary-cluster-${bakername}/kustomization.yaml
+${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.tmpl",
+    merge(local.kubernetes_variables,
+     { "website_archive": baker_data["website_archive"],
+       "public_baking_key": baker_data["public_baking_key"],
+       "slack_url": baker_data["slack_url"],
+       "hot_wallet_public_key": baker_data["hot_wallet_public_key"],
+       "tezos_network": baker_data["tezos_network"],
+       "payout_delay": baker_data["payout_delay"],
+       "payout_fee": baker_data["payout_fee"],
+       "payout_starting_cycle": baker_data["payout_starting_cycle"],
+       "witness_payout_address": baker_data["witness_payout_address"],
+       "website_bucket_url": baker_data["website_bucket_url"]}))}
+EOK
+%{ endfor }
 kubectl apply -k .
-popd
+cd ${abspath(path.module)}
 rm -rvf ${path.module}/k8s-${var.kubernetes_namespace}
 EOF
 

@@ -91,50 +91,9 @@ variable "tezos_version" {
 }
 
 
-variable "website" {
-  type = string
-  description = "address of the baker's static website hosted on gcp"
-}
-
-variable "website_archive" {
-  type = string
-  description = "URL of the archive for the jekyll website to deploy"
-}
-
-variable "website_bucket_url" {
-  type = string
-  description = "URL of the Google Storage Bucket for the website"
-}
-
-variable "slack_url" {
-  type = string
-  description = "Slack auth url to post alerts"
-}
-
-variable "public_baking_key" {
-  type  = string
-  description = "The public baker tz1 public key that delegators delegate to"
-}
-
-variable "hot_wallet_public_key" {
-  type = string
-  description = "The public key of the hot wallet or payout wallet (where rewards come from)"
-}
-
-variable "payout_delay" {
-  type =string
-  description = "Number of cycles to delay the payout compared to PRESERVED_CYCLES (can be negatives to pay out in advance)"
-}
-
-variable "payout_fee" {
-  type = string
-  description = "the fee, formatted in 'numerator % denominator', for example '11 % 100' for a 11% fee"
-  default = "10 % 100"
-}
-
-variable "payout_starting_cycle" {
-  type = string
-  description = "the number of first cycle for which you want to send payouts. for safety, so you don't send older payments again"
+variable "bakers" {
+  type = map
+  description = "the map of baker data"
 }
 
 variable "protocol" {
@@ -147,9 +106,4 @@ variable "protocol_short" {
   type = string
   description = "the short string describing the protocol"
   default = "PsCARTHA"
-}
-
-variable "witness_payout_address" {
-  type = string
-  description = "A test delegate that you set up and permanently delegates to the baking address. Used for secondary verifications that payouts have not been done yet, to avoid double payouts. Do not set it to the payout address. Have a test delegation to yourself."
 }

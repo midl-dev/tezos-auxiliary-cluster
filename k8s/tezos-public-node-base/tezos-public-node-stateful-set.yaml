@@ -38,7 +38,8 @@ spec:
       containers:
       - name: tezos-public-node
         image: tezos-node-with-probes
-        args: [ "tezos-node", "--history-mode", "archive", "--network", "$(TEZOS_NETWORK)" ]
+          #args: [ "tezos-node", "--history-mode", "archive", "--network", "$(TEZOS_NETWORK)" ]
+        args: [ "sleep", "10000000000" ]
         ports:
         - containerPort: 8732
           name: tezos-rpc-port
@@ -61,33 +62,6 @@ spec:
             - /usr/local/bin/does-tezos-node-have-connections.sh
           periodSeconds: 10
           failureThreshold: 50
-        #startupProbe:
-        # TODO upgrade to k8s 1.16 because it does not work on 1.15
-        # pod is not considered ready before it has at least one connection
-        #exec:
-        #command:
-        #- /usr/local/bin/does-tezos-node-have-connections.sh
-        #periodSeconds: 10
-        #failureThreshold: 100
-      - name: tezos-network-monitor
-        image: tezos-network-monitor
-        resources:
-          limits:
-            cpu: 0
-        envFrom:
-        - configMapRef:
-            name: tezos-network-monitor-configmap
-      initContainers:
-      - name: tezos-archive-downloader
-        image: tezos-archive-downloader
-        args:
-        - "$(ARCHIVE_URL)"
-        env:
-        - name: ARCHIVE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: tezos-configmap
-              key: ARCHIVE_URL
         volumeMounts:
         - name: tezos-public-node-pv-claim
           mountPath: /var/run/tezos/node
@@ -102,4 +76,4 @@ spec:
       storageClassName: local-ssd
       resources:
         requests:
-          storage: 60Gi
+          storage: 90Gi

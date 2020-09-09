@@ -1,0 +1,45 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-ssd
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tezos-public-node-rpc
+spec:
+  ports:
+  - port: 8732
+  selector:
+    app: tezos-public-node
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tezos-public-node
+spec:
+  selector:
+    matchLabels:
+      app: tezos-network-monitor
+  serviceName: "tezos-network-monitor"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tezos-network-monitor
+    spec:
+      securityContext:
+        fsGroup: 100
+      containers:
+      - name: tezos-network-monitor
+        image: tezos-network-monitor
+        resources:
+          limits:
+            cpu: 0
+        envFrom:
+        - configMapRef:
+            name: tezos-network-monitor-configmap

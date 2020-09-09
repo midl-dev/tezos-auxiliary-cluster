@@ -1,0 +1,23 @@
+bases:
+- ./../tezos-public-node-base
+
+imageTags:
+  - name: tezos-archive-downloader
+    newName: gcr.io/${project}/tezos-archive-downloader
+    newTag: ${kubernetes_namespace}-latest
+  - name: tezos-node-with-probes
+    newName: gcr.io/${project}/tezos-node-with-probes
+    newTag: ${kubernetes_namespace}-latest
+  - name: payout-cron
+    newName: gcr.io/${project}/payout-cron
+    newTag: ${kubernetes_namespace}-latest
+
+configMapGenerator:
+- name: tezos-configmap
+  literals:
+  - ARCHIVE_URL="${archive_url}"
+  - NODE_HOST="localhost"
+  - DATA_DIR=/var/run/tezos
+  - PROTOCOL="${protocol}"
+  - PROTOCOL_SHORT="${protocol_short}"
+  - TEZOS_NETWORK="${tezos_network}"
