@@ -1,20 +1,8 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-- tezos-public-node-stateful-set.yaml
-- backerei-payout.yaml
-
-# Adds namespace to all resources.
-namespace: ${kubernetes_namespace}
-
-# Value of this field is prepended to the
-# names of all resources, e.g. a deployment named
-# "wordpress" becomes "alices-wordpress".
-namePrefix: ${kubernetes_name_prefix}-
-
-
+bases:
+- ./../auxiliary-cluster-base
+nameSuffix: -${bakername}
 imageTags:
+
   - name: website-builder
     newName: gcr.io/${project}/website-builder
     newTag: ${kubernetes_namespace}-latest
@@ -32,15 +20,6 @@ imageTags:
     newTag: ${kubernetes_namespace}-latest
 
 configMapGenerator:
-- name: tezos-configmap
-  literals:
-  - ARCHIVE_URL="${archive_url}"
-  - NODE_HOST="localhost"
-  - DATA_DIR=/var/run/tezos
-  - PUBLIC_BAKING_KEY="${public_baking_key}"
-  - PROTOCOL="${protocol}"
-  - PROTOCOL_SHORT="${protocol_short}"
-  - TEZOS_NETWORK="${tezos_network}"
 - name: tezos-network-monitor-configmap
   literals:
   - NODE_URL="http://localhost:8732"

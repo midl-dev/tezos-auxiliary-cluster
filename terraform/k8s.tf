@@ -52,19 +52,6 @@ resource "kubernetes_namespace" "tezos_namespace" {
   }
 }
 
-# FIXME this is a bug in kustomize where it will not prepend characters to the storageClass requirement
-# to address it, we define it here. At some point, later, it will stop being needed.
-resource "kubernetes_storage_class" "local-ssd" {
-  count = var.kubernetes_name_prefix == "dot" ? 1  : 0
-  metadata {
-    name = "local-ssd"
-  }
-  storage_provisioner = "kubernetes.io/gce-pd"
-  parameters = {
-    type = "pd-ssd"
-  }
-}
-
 resource "null_resource" "apply" {
   provisioner "local-exec" {
 
@@ -75,7 +62,7 @@ gcloud container clusters get-credentials "${module.terraform-gke-blockchain.nam
 
 rm -rvf ${path.module}/k8s-${var.kubernetes_namespace}
 mkdir -p ${path.module}/k8s-${var.kubernetes_namespace}
-cp -v ${path.module}/../k8s/*yaml* ${path.module}/k8s-${var.kubernetes_namespace}
+cp -rv ${path.module}/../k8s/*base* ${path.module}/k8s-${var.kubernetes_namespace}
 cd ${abspath(path.module)}/k8s-${var.kubernetes_namespace}
 cat <<EOK > kustomization.yaml
 ${templatefile("${path.module}/../k8s/kustomization.yaml.tmpl", local.kubernetes_variables)}
@@ -85,12 +72,16 @@ mkdir -pv tezos-public-node
 cat <<EOK > tezos-public-node/kustomization.yaml
 ${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/kustomization.yaml.tmpl", local.kubernetes_variables)}
 EOK
+cat <<EOPPVN > tezos-public-node/prefixedpvnode.yaml
+${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/prefixedpvnode.yaml.tmpl", {"kubernetes_name_prefix": var.kubernetes_name_prefix})}
+EOPPVN
 %{ for bakername, baker_data in var.bakers }
 mkdir -pv auxiliary-cluster-${bakername}
 cat <<EOK > auxiliary-cluster-${bakername}/kustomization.yaml
 ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.tmpl",
     merge(local.kubernetes_variables,
-     { "website_archive": baker_data["website_archive"],
+     { "bakername": bakername,
+       "website_archive": baker_data["website_archive"],
        "public_baking_key": baker_data["public_baking_key"],
        "slack_url": baker_data["slack_url"],
        "hot_wallet_public_key": baker_data["hot_wallet_public_key"],

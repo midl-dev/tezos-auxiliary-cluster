@@ -7,6 +7,6 @@ namePrefix: ${kubernetes_name_prefix}-
 
 bases:
 - ./tezos-public-node
-%{ for bakername, customer_data in keys(bakers) }
-- ./auxiliary-cluster-{bakername}
+%{ for bakername in keys(bakers) }
+- ./auxiliary-cluster-${bakername}
 %{ endfor }
