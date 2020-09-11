@@ -22,7 +22,7 @@ imageTags:
 configMapGenerator:
 - name: tezos-network-monitor-configmap
   literals:
-  - NODE_URL="http://localhost:8732"
+  - NODE_URL="http://${kubernetes_name_prefix}-tezos-public-node-0.${kubernetes_name_prefix}-tezos-public-node:8732"
   - SLACK_URL="${slack_url}"
   - SLACK_CHANNEL="general"
   - HOT_WALLET_PUBLIC_KEY="${hot_wallet_public_key}" 
