@@ -34,9 +34,57 @@ spec:
               mountPath: /var/run/backerei/payouts
             - name: backerei-config-storage
               mountPath: /var/run/backerei/config
-            envFrom:
-            - configMapRef:
-                name: backerei-payout-configmap
+            env:
+            - name: PROTOCOL_SHORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PROTOCOL_SHORT
+            - name: HOT_WALLET_PUBLIC_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: HOT_WALLET_PUBLIC_KEY
+            - name: CYCLE_LENGTH
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: CYCLE_LENGTH
+            - name: PRESERVED_CYCLES
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PRESERVED_CYCLES
+            - name: PAYOUT_DELAY
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PAYOUT_DELAY
+            - name: SNAPSHOT_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: SNAPSHOT_INTERVAL
+            - name: PUBLIC_BAKING_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: bakerei-payout-configmap
+                  key: PUBLIC_BAKING_KEY
+            - name: PAYOUT_FEE
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PAYOUT_FEE
+            - name: PAYOUT_STARTING_CYCLE
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: PAYOUT_STARTING_CYCLE
+            - name: WITNESS_PAYOUT_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: WITNESS_PAYOUT_ADDRESS
             resources:
               limits:
                 cpu: 0
