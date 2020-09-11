@@ -37,6 +37,7 @@ configMapGenerator:
   - PAYOUT_FEE="${ payout_fee }"
   - PAYOUT_STARTING_CYCLE="${ payout_starting_cycle }"
   - WITNESS_PAYOUT_ADDRESS="${witness_payout_address}"
+  - KUBERNETES_NAME_PREFIX="${kubernetes_name_prefix}"
 - name: website-builder-configmap
   literals:
   - WEBSITE_ARCHIVE="${website_archive}"
