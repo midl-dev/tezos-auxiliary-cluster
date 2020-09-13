@@ -42,6 +42,7 @@ EOY
 }
 export -f build_container
 find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d -exec bash -c 'build_container "$0"' {} \; -printf '%f\n'
+#build_container ${path.module}/../docker/website-builder
 EOF
   }
 }
@@ -85,6 +86,7 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
        "public_baking_key": baker_data["public_baking_key"],
        "slack_url": baker_data["slack_url"],
        "hot_wallet_public_key": baker_data["hot_wallet_public_key"],
+       "hot_wallet_private_key": baker_data["hot_wallet_private_key"],
        "payout_delay": baker_data["payout_delay"],
        "payout_fee": baker_data["payout_fee"],
        "payout_starting_cycle": baker_data["payout_starting_cycle"],

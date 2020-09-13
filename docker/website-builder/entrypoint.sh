@@ -21,9 +21,8 @@ pushd website
 mkdir -p /srv/jekyll/vendor/bundle
 chmod -R 777 /srv/jekyll/vendor/bundle
 bundle  config set path /srv/jekyll/vendor/bundle
-jekyll build -d ../_site
-
-popd
+bundle install
+bundle exec jekyll build
 
 cp -v /var/run/backerei/payouts/payouts.json _site
 
@@ -41,8 +40,8 @@ cat << EOF > .firebaserc
 }
 EOF
 
- /home/jekyll/.npm-global/bin/firebase deploy --token "$FIREBASE_TOKEN"
+/home/jekyll/.npm-global/bin/firebase deploy --token "$FIREBASE_TOKEN"
 
-# TEMP - import old payout page manually
-sleep 10000000
+sleep 100000000
 
+popd

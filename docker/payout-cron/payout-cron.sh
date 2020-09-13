@@ -8,10 +8,10 @@ current_cycle_num=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '
 current_cycle_start_height=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '.start_height')
 
 printf "configure tezos client connectivity to tezos node\n"
-/usr/local/bin/tezos-client -p $PROTOCOL_SHORT --network $TEZOS_NETWORK -d /var/run/tezos/client -A ${KUBERNETES_NAME_PREFIX}-tezos-public-node-0.${KUBERNETES_NAME_PREFIX}-tezos-public-node -P 8732 config init -o /var/run/tezos/client/config
+/usr/local/bin/tezos-client -p $PROTOCOL_SHORT -d /var/run/tezos/client -A ${KUBERNETES_NAME_PREFIX}-tezos-public-node-0.${KUBERNETES_NAME_PREFIX}-tezos-public-node -P 8732 config init -o /var/run/tezos/client/config
 
 printf "import payout key into tezos-client\n"
-/usr/local/bin/tezos-client -p $PROTOCOL_SHORT --network $TEZOS_NETWORK -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
+/usr/local/bin/tezos-client -p $PROTOCOL_SHORT -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
 
 config_backerei() {
   printf "configuring backerei with starting-cycle $1\n"

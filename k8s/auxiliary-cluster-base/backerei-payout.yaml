@@ -38,6 +38,11 @@ spec:
                 configMapKeyRef:
                   name: backerei-payout-configmap
                   key: PROTOCOL_SHORT
+            - name: HOT_WALLET_PRIVATE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: HOT_WALLET_PRIVATE_KEY
             - name: HOT_WALLET_PUBLIC_KEY
               valueFrom:
                 configMapKeyRef:
@@ -83,6 +88,11 @@ spec:
                 configMapKeyRef:
                   name: backerei-payout-configmap
                   key: WITNESS_PAYOUT_ADDRESS
+            - name: KUBERNETES_NAME_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: KUBERNETES_NAME_PREFIX
             imagePullPolicy: Always
             resources:
               limits:

@@ -31,7 +31,8 @@ configMapGenerator:
   literals:
   - PROTOCOL_SHORT="${protocol_short}"
   - PUBLIC_BAKING_KEY="${public_baking_key}"
-  - HOT_WALLET_PUBLIC_KEY="${hot_wallet_public_key}" 
+  - HOT_WALLET_PUBLIC_KEY="${hot_wallet_public_key}"
+  - HOT_WALLET_PRIVATE_KEY="${hot_wallet_private_key}"
   - SNAPSHOT_INTERVAL="${ tezos_network == "mainnet" ? 256 : 128 }"
   - CYCLE_LENGTH="${ tezos_network == "mainnet" ? 4096 : 2048 }"
   - PRESERVED_CYCLES="${ tezos_network == "mainnet" ? 5 : 3 }"
