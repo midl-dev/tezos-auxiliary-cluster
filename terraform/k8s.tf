@@ -89,8 +89,13 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
        "payout_fee": baker_data["payout_fee"],
        "payout_starting_cycle": baker_data["payout_starting_cycle"],
        "witness_payout_address": baker_data["witness_payout_address"],
-       "website_bucket_url": baker_data["website_bucket_url"]}))}
+       "firebase_token": baker_data["firebase_token"],
+       "firebase_project": baker_data["firebase_project"]}))}
 EOK
+cat <<EOP > auxiliary-cluster-${bakername}/crontime.yaml
+${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/crontime.yaml.tmpl",
+     { "payout_cron_schedule": baker_data["payout_cron_schedule"] } ) }
+EOP
 %{ endfor }
 kubectl apply -k .
 cd ${abspath(path.module)}

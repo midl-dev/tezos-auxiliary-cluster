@@ -14,8 +14,6 @@ kind: CronJob
 metadata:
   name: backerei-payout-sender
 spec:
-  # every 3 hours
-  schedule: "7 */3 * * *"
   concurrencyPolicy:  Forbid
   jobTemplate:
     spec:
@@ -68,7 +66,7 @@ spec:
             - name: PUBLIC_BAKING_KEY
               valueFrom:
                 configMapKeyRef:
-                  name: bakerei-payout-configmap
+                  name: backerei-payout-configmap
                   key: PUBLIC_BAKING_KEY
             - name: PAYOUT_FEE
               valueFrom:
@@ -85,6 +83,7 @@ spec:
                 configMapKeyRef:
                   name: backerei-payout-configmap
                   key: WITNESS_PAYOUT_ADDRESS
+            imagePullPolicy: Always
             resources:
               limits:
                 cpu: 0
@@ -101,6 +100,7 @@ spec:
             resources:
               limits:
                 cpu: 0
+            imagePullPolicy: Always
           volumes:
           - name: backerei-config-storage
             emptyDir: {}

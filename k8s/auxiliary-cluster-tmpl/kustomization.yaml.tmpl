@@ -43,7 +43,11 @@ configMapGenerator:
 - name: website-builder-configmap
   literals:
   - WEBSITE_ARCHIVE="${website_archive}"
-  - WEBSITE_BUCKET_URL="${website_bucket_url}"
   - PAYOUT_URL="http://payout-json/payouts.json"
   - GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/json_key"
   - PAYOUT_DELAY="${ payout_delay }"
+  - FIREBASE_TOKEN="${ firebase_token }"
+  - FIREBASE_PROJECT="${ firebase_project }"
+
+patchesStrategicMerge:
+- crontime.yaml
