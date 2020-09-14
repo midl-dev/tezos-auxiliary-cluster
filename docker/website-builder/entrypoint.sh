@@ -42,6 +42,4 @@ EOF
 
 /home/jekyll/.npm-global/bin/firebase deploy --token "$FIREBASE_TOKEN"
 
-sleep 100000000
-
 popd

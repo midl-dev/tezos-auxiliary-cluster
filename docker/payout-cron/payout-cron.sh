@@ -63,7 +63,7 @@ fi
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
-printf "Actually sending payout- nope, dry run for now in test\n"
-/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
+printf "Actually sending payout\n"
+/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 
 printf "Payout cronjob complete\n"
