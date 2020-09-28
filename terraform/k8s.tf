@@ -10,7 +10,6 @@ locals {
        "kubernetes_name_prefix": var.kubernetes_name_prefix}
 }
 
-# Write the hot wallet private key secret
 resource "null_resource" "push_containers" {
 
   triggers = {

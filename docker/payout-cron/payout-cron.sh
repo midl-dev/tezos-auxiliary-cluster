@@ -14,7 +14,13 @@ printf "import payout key into tezos-client\n"
 /usr/local/bin/tezos-client -p $PROTOCOL_SHORT -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
 
 config_backerei() {
-  printf "configuring backerei with starting-cycle $1\n"
+  if [ "${PAYOUT_STARTING_CYCLE}" -gt "$1" ]; then
+      printf "Configured starting cycle higher than requested cycle, adjusting for that\n"
+      backerei_starting_cycle=${PAYOUT_STARTING_CYCLE}
+  else
+      backerei_starting_cycle=$1
+  fi
+  printf "configuring backerei with starting-cycle $backerei_starting_cycle\n"
   /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml init \
   --host ${KUBERNETES_NAME_PREFIX}-tezos-public-node-0.${KUBERNETES_NAME_PREFIX}-tezos-public-node \
   --tz1 $PUBLIC_BAKING_KEY \
@@ -23,7 +29,7 @@ config_backerei() {
   --database-path /var/run/backerei/payouts/payouts.json \
   --client-path /usr/local/bin/tezos-client \
   --client-config-file /var/run/tezos/client/config \
-  --starting-cycle $1 \
+  --starting-cycle $backerei_starting_cycle \
   --cycle-length $CYCLE_LENGTH \
   --snapshot-interval $SNAPSHOT_INTERVAL \
   --preserved-cycles $PRESERVED_CYCLES \
@@ -40,6 +46,12 @@ printf "wait for node to be bootstrapped\n"
 
 printf "Launching in dry-run mode to perform calculations\n"
 /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password
+
+if ! curl -f "https://api.tzstats.com/explorer/account/$HOT_WALLET_PUBLIC_KEY"
+then
+    printf "Hot wallet does not exist on-chain yet, not performing actual payout operation.\n"
+    exit 0
+fi
 
 # Check whether payment has been done already.
 # Search for any payout from the payout address to the witness address.
@@ -63,7 +75,7 @@ fi
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
-printf "Actually sending payout\n"
+printf "Actually sending payout"
 /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 
 printf "Payout cronjob complete\n"

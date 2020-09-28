@@ -129,6 +129,3 @@ function expand_details_hyperlink(cycle_id)
         {%- endfor %}
     </tbody>
 </table>
-
-[How do payouts work ?](https://hodl.farm/faq.html#how-do-payouts-work-)
-
