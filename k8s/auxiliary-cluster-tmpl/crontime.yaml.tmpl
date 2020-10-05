@@ -1,0 +1,6 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: backerei-payout-sender
+spec:
+  schedule: "${ snapshot_cron_schedule }"
