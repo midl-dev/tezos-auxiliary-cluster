@@ -56,10 +56,10 @@ fi
 # Check whether payment has been done already.
 # Search for any payout from the payout address to the witness address.
 # Do not set the payout address and the witness address as the same address. Backerei indeed sends a payment to the payout address itself but there is no guarantee that tzstats api will see it as such.
-number_of_payments=$(curl "https://api.tzstats.com/explorer/account/$HOT_WALLET_PUBLIC_KEY/op?type=transaction&since=$current_cycle_start_height" | jq --arg sender_address $HOT_WALLET_PUBLIC_KEY --arg receiver_address $WITNESS_PAYOUT_ADDRESS -r ' [ .ops | .[] | select(.receiver == $receiver_address and .sender == $sender_address) ] | length ')
+number_of_payments=$(curl "https://api.tzstats.com/explorer/account/$WITNESS_PAYOUT_ADDRESS/operations?type=transaction&since=$current_cycle_start_height" | jq --arg sender_address $HOT_WALLET_PUBLIC_KEY --arg receiver_address $WITNESS_PAYOUT_ADDRESS -r ' [ .[] | select(.receiver == $receiver_address and .sender == $sender_address) ] | length ')
 
 if [ "$number_of_payments" -ne 0 ]; then
-    printf "We checked the blockchain using tzstats and already found a payment from the payout address $HOT_WALLET_PUBLIC_KEY to the witness address $WITNESS_PAYOUT_ADDRESS\n"
+    printf "We checked the blockchain using tzstats and already found a payment from the payout address $HOT_WALLET_PUBLIC_KEY to the witness address $WITNESS_PAYOUT_ADDRESS after height $current_cycle_start_height\n"
     printf "We conclude that the payout supposed to happen during cycle $current_cycle_num appears to have already been done, exiting\n"
     exit 0
 
@@ -75,7 +75,7 @@ fi
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
-printf "Actually sending payout"
+printf "Actually sending payout\n"
 /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 
 printf "Payout cronjob complete\n"

@@ -24,7 +24,7 @@ configMapGenerator:
   literals:
   - NODE_URL="http://${kubernetes_name_prefix}-tezos-public-node-0.${kubernetes_name_prefix}-tezos-public-node:8732"
   - SLACK_URL="${slack_url}"
-  - SLACK_CHANNEL="general"
+  - SLACK_CHANNEL="${slack_channel}"
   - HOT_WALLET_PUBLIC_KEY="${hot_wallet_public_key}" 
   - PUBLIC_BAKING_KEY="${public_baking_key}"
 - name: backerei-payout-configmap
@@ -52,3 +52,5 @@ configMapGenerator:
 
 patchesStrategicMerge:
 - crontime.yaml
+- nodepool.yaml
+- nodepool-monitor.yaml

@@ -71,6 +71,9 @@ mkdir -pv tezos-public-node
 cat <<EOK > tezos-public-node/kustomization.yaml
 ${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/kustomization.yaml.tmpl", local.kubernetes_variables)}
 EOK
+cat <<EOP > tezos-public-node/nodepool.yaml
+${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/nodepool.yaml.tmpl", {"kubernetes_pool_name": var.kubernetes_pool_name})}
+EOP
 cat <<EOPPVN > tezos-public-node/prefixedpvnode.yaml
 ${templatefile("${path.module}/../k8s/tezos-public-node-tmpl/prefixedpvnode.yaml.tmpl", {"kubernetes_name_prefix": var.kubernetes_name_prefix})}
 EOPPVN
@@ -80,9 +83,11 @@ cat <<EOK > auxiliary-cluster-${bakername}/kustomization.yaml
 ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.tmpl",
     merge(local.kubernetes_variables,
      { "bakername": bakername,
+       "kubernetes_pool_name": var.kubernetes_pool_name,
        "website_archive": baker_data["website_archive"],
        "public_baking_key": baker_data["public_baking_key"],
        "slack_url": baker_data["slack_url"],
+       "slack_channel": baker_data["slack_channel"],
        "hot_wallet_public_key": baker_data["hot_wallet_public_key"],
        "hot_wallet_private_key": baker_data["hot_wallet_private_key"],
        "payout_delay": baker_data["payout_delay"],
@@ -95,6 +100,12 @@ EOK
 cat <<EOP > auxiliary-cluster-${bakername}/crontime.yaml
 ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/crontime.yaml.tmpl",
      { "payout_cron_schedule": baker_data["payout_cron_schedule"] } ) }
+EOP
+cat <<EOP > auxiliary-cluster-${bakername}/nodepool.yaml
+${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/nodepool.yaml.tmpl", {"kubernetes_pool_name": var.kubernetes_pool_name})}
+EOP
+cat <<EOP > auxiliary-cluster-${bakername}/nodepool-monitor.yaml
+${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/nodepool-monitor.yaml.tmpl", {"kubernetes_pool_name": var.kubernetes_pool_name})}
 EOP
 %{ endfor }
 kubectl apply -k .
