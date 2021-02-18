@@ -93,6 +93,11 @@ spec:
                 configMapKeyRef:
                   name: backerei-payout-configmap
                   key: KUBERNETES_NAME_PREFIX
+            - name: DRY_RUN
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: DRY_RUN
             imagePullPolicy: Always
             resources:
               limits:

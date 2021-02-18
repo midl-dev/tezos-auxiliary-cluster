@@ -2,8 +2,8 @@ bases:
 - ./../tezos-public-node-base
 
 imageTags:
-  - name: tezos-archive-downloader
-    newName: gcr.io/${project}/tezos-archive-downloader
+  - name: tezos-snapshot-downloader
+    newName: gcr.io/${project}/tezos-snapshot-downloader
     newTag: ${kubernetes_namespace}-latest
   - name: tezos-node-with-probes
     newName: gcr.io/${project}/tezos-node-with-probes
@@ -15,7 +15,7 @@ imageTags:
 configMapGenerator:
 - name: tezos-configmap
   literals:
-  - ARCHIVE_URL="${archive_url}"
+  - SNAPSHOT_URL="${full_snapshot_url}"
   - NODE_HOST="localhost"
   - DATA_DIR=/var/run/tezos
   - PROTOCOL="${protocol}"

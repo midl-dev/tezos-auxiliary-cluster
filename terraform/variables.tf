@@ -75,12 +75,7 @@ variable "org_id" {
   default = ""
 }
 
-variable "archive_url" {
-  type = string
-  description = "The public URL where to download the tezos blockchain archive for quicker sync"
-}
-
-variable "snapshot_url" {
+variable "full_snapshot_url" {
   type = string
   description = "The public URL where to download the tezos blockchain snapshot for quicker sync of the public nodes"
 }

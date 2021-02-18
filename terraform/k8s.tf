@@ -3,7 +3,7 @@ locals {
        "tezos_version": var.tezos_version,
        "tezos_network": var.tezos_network,
        "bakers": var.bakers,
-       "archive_url": var.archive_url,
+       "full_snapshot_url": var.full_snapshot_url,
        "protocol": var.protocol,
        "protocol_short": var.protocol_short,
        "kubernetes_namespace": var.kubernetes_namespace,
@@ -94,6 +94,7 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
        "payout_fee": baker_data["payout_fee"],
        "payout_starting_cycle": baker_data["payout_starting_cycle"],
        "witness_payout_address": baker_data["witness_payout_address"],
+       "dry_run": baker_data["payout_dry_run"],
        "firebase_token": baker_data["firebase_token"],
        "firebase_project": baker_data["firebase_project"]}))}
 EOK

@@ -1,3 +1,12 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-ssd
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+allowVolumeExpansion: true
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -27,6 +36,27 @@ spec:
     spec:
       securityContext:
         fsGroup: 100
+      initContainers:
+      - name: tezos-snapshot-downloader
+        image: tezos-snapshot-downloader
+        volumeMounts:
+        - name: tezos-public-node-pv-claim
+          mountPath: /var/run/tezos/node
+        env:
+        - name: SNAPSHOT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: tezos-configmap
+              key: SNAPSHOT_URL
+        - name: TEZOS_NETWORK
+          valueFrom:
+            configMapKeyRef:
+              name: tezos-configmap
+              key: TEZOS_NETWORK
+        resources:
+          limits:
+            cpu: 0
+        imagePullPolicy: Always
       containers:
       - name: tezos-public-node
         image: tezos-node-with-probes

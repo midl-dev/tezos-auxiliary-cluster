@@ -65,7 +65,7 @@ if [ "$number_of_payments" -ne 0 ]; then
 
 else
 
-    printf "No payment operation found in current cycle from the payout address $HOT_WALLET_PUBLIC_KEY to the witness address $WITNESS_PAYOUT_ADDRESS, launching backerei in no-dry-run mode for current cycle $current_cycle_num\n"
+    printf "No payment operation found in current cycle from the payout address $HOT_WALLET_PUBLIC_KEY to the witness address $WITNESS_PAYOUT_ADDRESS, launching backerei in no-dry-run mode for current cycle $current_cycle_num (if DRY_RUN env var is set to false)\n"
 
 fi
 
@@ -75,7 +75,11 @@ fi
 printf "For actual payout, reconfigure backerei with a starting-cycle equal to the cycle for which we are doing payouts to prevent accidental payout of old cycles\n"
 config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
-printf "Actually sending payout\n"
-/home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
+if [ "${DRY_RUN}" == "false" ]; then
+    printf "Actually sending payout\n"
+    /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
+else
+    printf "Would have sent payout here if \$DRY_RUN was false"
+fi
 
 printf "Payout cronjob complete\n"
