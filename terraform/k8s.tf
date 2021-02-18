@@ -40,7 +40,8 @@ EOY
   rm cloudbuild.yaml
 }
 export -f build_container
-find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d -exec bash -c 'build_container "$0"' {} \; -printf '%f\n'
+#find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d -exec bash -c 'build_container "$0"' {} \; -printf '%f\n'
+build_container ${path.module}/../docker/tezos-archive-reconstructor
 EOF
   }
 }
@@ -95,6 +96,7 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
        "payout_starting_cycle": baker_data["payout_starting_cycle"],
        "witness_payout_address": baker_data["witness_payout_address"],
        "dry_run": baker_data["payout_dry_run"],
+       "external_node_rpc": lookup(baker_data, "external_node_rpc", ""),
        "firebase_token": baker_data["firebase_token"],
        "firebase_project": baker_data["firebase_project"]}))}
 EOK

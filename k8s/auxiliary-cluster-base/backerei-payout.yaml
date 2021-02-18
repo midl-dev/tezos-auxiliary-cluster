@@ -98,6 +98,11 @@ spec:
                 configMapKeyRef:
                   name: backerei-payout-configmap
                   key: DRY_RUN
+            - name: EXTERNAL_NODE_RPC
+              valueFrom:
+                configMapKeyRef:
+                  name: backerei-payout-configmap
+                  key: EXTERNAL_NODE_RPC
             imagePullPolicy: Always
             resources:
               limits:

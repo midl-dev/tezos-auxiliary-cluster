@@ -1,14 +1,25 @@
 #!/bin/sh
-# Copyright 2020 - Hodl.farm
+# Copyright 2021 - MIDL.dev
 
 set -e
+set -x
 
 printf "Starting payout cronjob\n"
 current_cycle_num=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '.cycle')
 current_cycle_start_height=$(curl "https://api.tzstats.com/explorer/cycle/head" | jq -r '.start_height')
 
+if [ -z "${EXTERNAL_NODE_RPC}" ]; then
+    NODE_RPC="${KUBERNETES_NAME_PREFIX}-tezos-public-node-0.${KUBERNETES_NAME_PREFIX}-tezos-public-node"
+    NODE_RPC_PORT=8732
+else
+    # terminate https locally since backerei does not support https d'oh!
+    socat tcp-listen:8733,reuseaddr,fork ssl:mainnet-tezos.giganode.io:443 &
+    NODE_RPC="localhost"
+    NODE_RPC_PORT=8733
+fi
+
 printf "configure tezos client connectivity to tezos node\n"
-/usr/local/bin/tezos-client -p $PROTOCOL_SHORT -d /var/run/tezos/client -A ${KUBERNETES_NAME_PREFIX}-tezos-public-node-0.${KUBERNETES_NAME_PREFIX}-tezos-public-node -P 8732 config init -o /var/run/tezos/client/config
+/usr/local/bin/tezos-client -p $PROTOCOL_SHORT -d /var/run/tezos/client --endpoint "http://${NODE_RPC}:${NODE_RPC_PORT}" config init -o /var/run/tezos/client/config
 
 printf "import payout key into tezos-client\n"
 /usr/local/bin/tezos-client -p $PROTOCOL_SHORT -c /var/run/tezos/client/config import secret key k8s-payer unencrypted:$HOT_WALLET_PRIVATE_KEY -f
@@ -22,7 +33,8 @@ config_backerei() {
   fi
   printf "configuring backerei with starting-cycle $backerei_starting_cycle\n"
   /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml init \
-  --host ${KUBERNETES_NAME_PREFIX}-tezos-public-node-0.${KUBERNETES_NAME_PREFIX}-tezos-public-node \
+  --host ${NODE_RPC} \
+  --port ${NODE_RPC_PORT} \
   --tz1 $PUBLIC_BAKING_KEY \
   --from $HOT_WALLET_PUBLIC_KEY \
   --from-name k8s-payer \
