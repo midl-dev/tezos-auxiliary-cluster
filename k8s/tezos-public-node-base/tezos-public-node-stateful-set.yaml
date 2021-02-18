@@ -57,6 +57,21 @@ spec:
           limits:
             cpu: 0
         imagePullPolicy: Always
+      - name: tezos-archive-reconstructor
+        image: tezos-archive-reconstructor
+        volumeMounts:
+        - name: tezos-public-node-pv-claim
+          mountPath: /var/run/tezos/node
+        env:
+        - name: TEZOS_NETWORK
+          valueFrom:
+            configMapKeyRef:
+              name: tezos-configmap
+              key: TEZOS_NETWORK
+        resources:
+          limits:
+            cpu: 0
+        imagePullPolicy: Always
       containers:
       - name: tezos-public-node
         image: tezos-node-with-probes
