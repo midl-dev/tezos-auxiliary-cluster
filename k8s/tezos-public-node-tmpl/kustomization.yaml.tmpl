@@ -18,7 +18,7 @@ imageTags:
 configMapGenerator:
 - name: tezos-configmap
   literals:
-  - SNAPSHOT_URL="${full_snapshot_url}"
+  - SNAPSHOT_URL="${rolling_snapshot_url}"
   - NODE_HOST="localhost"
   - DATA_DIR=/var/run/tezos
   - PROTOCOL="${protocol}"

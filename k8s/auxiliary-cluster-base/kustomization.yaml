@@ -1,3 +1,2 @@
 resources:
 - tezos-network-monitor-deployment.yaml
-- backerei-payout.yaml

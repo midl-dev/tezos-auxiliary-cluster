@@ -89,6 +89,7 @@ config_backerei $(($current_cycle_num - 6 - $PAYOUT_DELAY))
 
 if [ "${DRY_RUN}" == "false" ]; then
     printf "Actually sending payout\n"
+    printf "Sleeping \n"
     /home/tezos/backerei --config /var/run/backerei/config/backerei.yaml payout --no-password --no-dry-run
 else
     printf "Would have sent payout here if \$DRY_RUN was false"

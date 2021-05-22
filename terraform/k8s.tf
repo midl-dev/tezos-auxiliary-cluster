@@ -3,7 +3,7 @@ locals {
        "tezos_version": var.tezos_version,
        "tezos_network": var.tezos_network,
        "bakers": var.bakers,
-       "full_snapshot_url": var.full_snapshot_url,
+       "rolling_snapshot_url": var.rolling_snapshot_url,
        "protocol": var.protocol,
        "protocol_short": var.protocol_short,
        "kubernetes_namespace": var.kubernetes_namespace,
@@ -41,7 +41,7 @@ EOY
 }
 export -f build_container
 find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d -exec bash -c 'build_container "$0"' {} \; -printf '%f\n'
-#build_container ${path.module}/../docker/tezos-archive-reconstructor
+#build_container ${path.module}/../docker/payout-cron
 EOF
   }
 }
