@@ -87,6 +87,7 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
        "public_baking_key": baker_data["public_baking_key"],
        "slack_url": baker_data["slack_url"],
        "slack_channel": baker_data["slack_channel"],
+       "hot_wallet_public_key": baker_data["hot_wallet_public_key"],
        "external_node_rpc": lookup(baker_data, "external_node_rpc", ""),
        }))}
 EOK
