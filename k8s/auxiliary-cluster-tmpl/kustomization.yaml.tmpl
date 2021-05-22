@@ -3,9 +3,6 @@ bases:
 nameSuffix: -${bakername}
 imageTags:
 
-  - name: website-builder
-    newName: gcr.io/${project}/website-builder
-    newTag: ${kubernetes_namespace}-latest
   - name: tezos-network-monitor
     newName: gcr.io/${project}/tezos-network-monitor
     newTag: ${kubernetes_namespace}-latest
@@ -18,9 +15,6 @@ imageTags:
   - name: tezos-node-with-probes
     newName: gcr.io/${project}/tezos-node-with-probes
     newTag: ${kubernetes_namespace}-latest
-  - name: payout-cron
-    newName: gcr.io/${project}/payout-cron
-    newTag: ${kubernetes_namespace}-latest
 
 configMapGenerator:
 - name: tezos-network-monitor-configmap
@@ -30,14 +24,6 @@ configMapGenerator:
   - SLACK_CHANNEL="${slack_channel}"
   - HOT_WALLET_PUBLIC_KEY="${hot_wallet_public_key}" 
   - PUBLIC_BAKING_KEY="${public_baking_key}"
-- name: website-builder-configmap
-  literals:
-  - WEBSITE_ARCHIVE="${website_archive}"
-  - PAYOUT_URL="http://payout-json/payouts.json"
-  - GOOGLE_APPLICATION_CREDENTIALS="/var/secrets/google/json_key"
-  - PAYOUT_DELAY="${ payout_delay }"
-  - FIREBASE_TOKEN="${ firebase_token }"
-  - FIREBASE_PROJECT="${ firebase_project }"
 
 patchesStrategicMerge:
 - nodepool-monitor.yaml

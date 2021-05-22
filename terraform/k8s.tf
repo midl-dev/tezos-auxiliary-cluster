@@ -41,7 +41,6 @@ EOY
 }
 export -f build_container
 find ${path.module}/../docker -mindepth 1 -maxdepth 1 -type d -exec bash -c 'build_container "$0"' {} \; -printf '%f\n'
-#build_container ${path.module}/../docker/payout-cron
 EOF
   }
 }
@@ -85,25 +84,12 @@ ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/kustomization.yaml.
     merge(local.kubernetes_variables,
      { "bakername": bakername,
        "kubernetes_pool_name": var.kubernetes_pool_name,
-       "website_archive": baker_data["website_archive"],
        "public_baking_key": baker_data["public_baking_key"],
        "slack_url": baker_data["slack_url"],
        "slack_channel": baker_data["slack_channel"],
-       "hot_wallet_public_key": baker_data["hot_wallet_public_key"],
-       "hot_wallet_private_key": baker_data["hot_wallet_private_key"],
-       "payout_delay": baker_data["payout_delay"],
-       "payout_fee": baker_data["payout_fee"],
-       "payout_starting_cycle": baker_data["payout_starting_cycle"],
-       "witness_payout_address": baker_data["witness_payout_address"],
-       "dry_run": baker_data["payout_dry_run"],
        "external_node_rpc": lookup(baker_data, "external_node_rpc", ""),
-       "firebase_token": baker_data["firebase_token"],
-       "firebase_project": baker_data["firebase_project"]}))}
+       }))}
 EOK
-cat <<EOP > auxiliary-cluster-${bakername}/crontime.yaml
-${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/crontime.yaml.tmpl",
-     { "payout_cron_schedule": baker_data["payout_cron_schedule"] } ) }
-EOP
 cat <<EOP > auxiliary-cluster-${bakername}/nodepool.yaml
 ${templatefile("${path.module}/../k8s/auxiliary-cluster-tmpl/nodepool.yaml.tmpl", {"kubernetes_pool_name": var.kubernetes_pool_name})}
 EOP
