@@ -77,12 +77,6 @@ spec:
         resources:
           limits:
             cpu: 0
-        volumeMounts:
-        - name: tezos-public-node-pv-claim
-          mountPath: /var/run/tezos/node
-        resources:
-          limits:
-            cpu: 0
         imagePullPolicy: Always
   volumeClaimTemplates:
   - metadata:
