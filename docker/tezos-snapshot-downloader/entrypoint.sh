@@ -19,7 +19,7 @@ elif [ -z "$SNAPSHOT_URL" ]; then
 else
     echo "Did not find pre-existing data, importing blockchain"
     mkdir -p ${node_dir}/data
-    echo '{ "version": "0.0.4" }' > ${node_dir}/version.json
+    echo '{ "version": "0.0.6" }' > ${node_dir}/version.json
     cp -v /usr/local/share/tezos/alphanet_version ${node_dir}
     snapshot_file=${node_dir}/chain.snapshot
     curl -L -o $snapshot_file $SNAPSHOT_URL
